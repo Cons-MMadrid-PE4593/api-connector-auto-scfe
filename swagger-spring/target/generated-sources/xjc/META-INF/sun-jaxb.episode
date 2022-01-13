@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<bindings xmlns="http://java.sun.com/xml/ns/jaxb" if-exists="true" version="2.1">
+      
+    <!--
+
+Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.3.0 
+Visite <a href="https://javaee.github.io/jaxb-v2/">https://javaee.github.io/jaxb-v2/</a> 
+Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
+Generado el: 2022.01.13 a las 11:55:25 AM CET 
+
+  -->
+      
+    <bindings xmlns:tns="GQSResponse" if-exists="true" scd="x-schema::tns">
+            
+        <schemaBindings map="false">
+                  
+            <package name="com.santander.gqs.client"/>
+                
+        </schemaBindings>
+            
+        <bindings if-exists="true" scd="tns:GetProdutcs">
+                  
+            <class ref="com.santander.gqs.client.GetProdutcs"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="tns:GetProdutcsResponse">
+                  
+            <class ref="com.santander.gqs.client.GetProdutcsResponse"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="tns:Calculate">
+                  
+            <class ref="com.santander.gqs.client.Calculate"/>
+                
+        </bindings>
+            
+        <bindings if-exists="true" scd="tns:CalculateResponse">
+                  
+            <class ref="com.santander.gqs.client.CalculateResponse"/>
+                
+        </bindings>
+          
+    </bindings>
+    
+</bindings>
