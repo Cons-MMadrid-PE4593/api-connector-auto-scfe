@@ -73,19 +73,23 @@ public class CodesLoanApplicationApiController implements CodesLoanApplicationAp
     		@ApiParam(value = "Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID.  The possible values are 0 = Deny 1 = Accept d = Debug" ) @RequestHeader(value="X-B3-Sampled", required=false) String xB3Sampled) {
         String accept1 = request.getHeader("Accept");
         if (accept1 != null && accept1.contains("application/json")) {
-            try {
+//            try {
             	ObjectFactory objFactory = new ObjectFactory();
             	GetProdutcs getProductsRequest = objFactory.createGetProdutcs();
             	getProductsRequest.setBusinessUnit(businessUnit);
             	getProductsRequest.setVersion(version);
             	getProductsRequest.setXMLData(xmLDataGetProducts);
 				GetProdutcsResponse productsRespose = gqsClient.getProductsResponse(getProductsRequest);
-				
-                return new ResponseEntity<ProductsResponse>(objectMapper.readValue(productsRespose.getGetProdutcsResult(), ProductsResponse.class), HttpStatus.OK);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<ProductsResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+				String result=productsRespose.getGetProdutcsResult();
+				ProductsResponse response=new ProductsResponse();
+				response.setDataType(result);
+				return new ResponseEntity<ProductsResponse> (response,HttpStatus.OK);
+//                return new ResponseEntity<ProductsResponse>(objectMapper.readValue(productsRespose.getGetProdutcsResult(), ProductsResponse.class), HttpStatus.OK);
+//            } 
+//            catch (IOException e) {
+//                log.error("Couldn't serialize response for content type application/json", e);
+//                return new ResponseEntity<ProductsResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+//            }
         }
 
         return new ResponseEntity<ProductsResponse>(HttpStatus.NOT_IMPLEMENTED);

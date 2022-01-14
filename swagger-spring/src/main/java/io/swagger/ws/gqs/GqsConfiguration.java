@@ -1,5 +1,8 @@
 package io.swagger.ws.gqs;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -11,6 +14,10 @@ public class GqsConfiguration {
 	@Bean
 	public Jaxb2Marshaller marshaller() {
 		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+		Map<String, Object> properties = new HashMap<String, Object>();
+		properties.put(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8");
+		properties.put(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		marshaller.setMarshallerProperties(properties);
 		marshaller.setContextPath("com.santander.gqs.client");
 		return marshaller;
 	}

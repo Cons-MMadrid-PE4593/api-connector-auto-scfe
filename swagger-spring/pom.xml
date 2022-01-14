@@ -6,7 +6,7 @@
     <name>swagger-spring</name>
     <version>1.0.0</version>
     <properties>
-        <java.version>14</java.version>
+        <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <springfox-version>2.9.2</springfox-version>
@@ -59,6 +59,21 @@
         </plugins>
         
     </build>
+    <profiles>
+		<profile>
+			<id>java11</id>
+			<activation>
+				<jdk>[11,)</jdk>
+			</activation>
+	
+			<dependencies>
+				<dependency>
+					<groupId>org.glassfish.jaxb</groupId>
+					<artifactId>jaxb-runtime</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
