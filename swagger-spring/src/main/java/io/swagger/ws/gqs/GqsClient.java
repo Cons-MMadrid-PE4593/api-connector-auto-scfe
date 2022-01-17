@@ -10,6 +10,8 @@ import org.springframework.ws.client.core.WebServiceMessageCallback;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.SoapMessage;
 
+import com.santander.gqs.client.Calculate;
+import com.santander.gqs.client.CalculateResponse;
 import com.santander.gqs.client.GetProdutcs;
 import com.santander.gqs.client.GetProdutcsResponse;
 
@@ -29,6 +31,16 @@ public class GqsClient extends WebServiceGatewaySupport {
 			@Override
 			public void doWithMessage(WebServiceMessage message) throws IOException, TransformerException {
 				( (SoapMessage) message ).setSoapAction( "GQSResponse/GetProdutcs" );
+				
+			}
+		});
+	}
+	
+	public CalculateResponse getCalculateResponse (Calculate calculateRequest) {
+		return (CalculateResponse) getWebServiceTemplate().marshalSendAndReceive(calculateRequest, new WebServiceMessageCallback() {	
+			@Override
+			public void doWithMessage(WebServiceMessage message) throws IOException, TransformerException {
+				( (SoapMessage) message ).setSoapAction( "GQSResponse/Calculate" );
 				
 			}
 		});
