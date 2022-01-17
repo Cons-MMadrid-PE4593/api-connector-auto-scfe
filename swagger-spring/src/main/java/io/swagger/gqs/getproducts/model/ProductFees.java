@@ -1,4 +1,4 @@
-package io.swagger.model;
+package io.swagger.gqs.getproducts.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

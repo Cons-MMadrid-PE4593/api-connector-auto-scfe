@@ -23,8 +23,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
+import io.swagger.gqs.getproducts.model.ProductsResponse;
 import io.swagger.model.CodesResponse;
-import io.swagger.model.ProductsResponse;
 import io.swagger.model.ResponseError;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2022-01-11T12:24:24.322Z")
 

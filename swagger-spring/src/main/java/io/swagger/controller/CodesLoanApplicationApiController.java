@@ -16,21 +16,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.cfg.CoercionAction;
-import com.fasterxml.jackson.databind.cfg.CoercionInputShape;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.type.LogicalType;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.santander.gqs.client.GetProdutcs;
 import com.santander.gqs.client.GetProdutcsResponse;
 import com.santander.gqs.client.ObjectFactory;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.api.CodesLoanApplicationApi;
+import io.swagger.gqs.getproducts.model.ProductsResponse;
 import io.swagger.model.CodesResponse;
-import io.swagger.model.ProductsResponse;
+import io.swagger.util.GqsUtil;
 import io.swagger.ws.gqs.GqsClient;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2022-01-11T12:24:24.322Z")
 
@@ -87,12 +82,7 @@ public class CodesLoanApplicationApiController implements CodesLoanApplicationAp
             	getProductsRequest.setXMLData(xmLDataGetProducts);
 				GetProdutcsResponse productsRespose = gqsClient.getProductsResponse(getProductsRequest);
 				String result=productsRespose.getGetProdutcsResult();
-				XmlMapper xmlMapper = new XmlMapper();
-				JsonNode node = xmlMapper.readTree(result);
-				String jsonStr = objectMapper.writeValueAsString(node);
-				objectMapper.coercionConfigFor(LogicalType.POJO)
-				  .setCoercion(CoercionInputShape.EmptyString, CoercionAction.AsEmpty);
-				ProductsResponse response=objectMapper.readValue(jsonStr, ProductsResponse.class);
+				ProductsResponse response = GqsUtil.getJsonFormatResponse(result, objectMapper, ProductsResponse.class);
 				response.setXmlData(result);
 				return new ResponseEntity<ProductsResponse> (response,HttpStatus.OK);
             } 
@@ -102,7 +92,7 @@ public class CodesLoanApplicationApiController implements CodesLoanApplicationAp
             }
         }
 
-        return new ResponseEntity<ProductsResponse>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<ProductsResponse>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
 }
