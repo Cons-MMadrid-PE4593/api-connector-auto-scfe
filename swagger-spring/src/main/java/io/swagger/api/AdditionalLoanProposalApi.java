@@ -23,14 +23,13 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
-import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.model.ResponseError;
 import io.swagger.model.UploadDocumentResponse;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2022-01-11T12:24:24.322Z")
 
 @Validated
 @Api(value = "additionalLoanProposal", tags = {"auto-api-controller"})
-//@RequestMapping(value = "/AutoSCFE")
+
 public interface AdditionalLoanProposalApi {
 
     @ApiOperation(value = "Upload documents to loan proposal", nickname = "uploadDocument", notes = "Upload documents to loan proposal", response = UploadDocumentResponse.class, authorizations = {
