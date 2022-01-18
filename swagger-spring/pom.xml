@@ -41,20 +41,37 @@
 					<version>0.14.0</version>
 					<executions>
 						<execution>
-							<goals>
-								<goal>generate</goal>
-							</goals>
+							<id>xjc-gqs</id>
+					        <goals>
+					            <goal>generate</goal>
+					        </goals>
+					        <configuration>
+								<schemaLanguage>WSDL</schemaLanguage>
+								<generatePackage>com.santander.gqs.client</generatePackage>
+								<schemas>
+									<schema>
+										<url>https://ficresfrontcert.scftest.santanderconsumer.es/GQS/GQS.asmx?WSDL</url>
+									</schema>
+								</schemas>
+							</configuration>
+						</execution>
+						<execution>
+							<id>xjc-giws</id>
+					        <goals>
+					            <goal>generate</goal>
+					        </goals>
+					        <configuration>
+								<schemaLanguage>WSDL</schemaLanguage>
+								<generatePackage>com.santander.giws.client</generatePackage>
+								<schemas>
+									<schema>
+										<url>https://ficresfrontcert.scftest.santanderconsumer.es/giws/scproposalprocess.asmx?WSDL</url>
+									</schema>
+								</schemas>
+							</configuration>
 						</execution>
 					</executions>
-					<configuration>
-						<schemaLanguage>WSDL</schemaLanguage>
-						<generatePackage>com.santander.gqs.client</generatePackage>
-						<schemas>
-							<schema>
-								<url>https://ficresfrontcert.scftest.santanderconsumer.es/GQS/GQS.asmx?WSDL</url>
-							</schema>
-						</schemas>
-					</configuration>
+					
 			</plugin>
         </plugins>
         
