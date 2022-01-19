@@ -27,7 +27,6 @@ import io.swagger.gqs.calculator.model.QuotingScheme;
 import io.swagger.gqs.getproducts.model.ProductsResponse;
 import io.swagger.util.GqsUtil;
 import io.swagger.ws.gqs.GqsClient;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2022-01-11T12:24:24.322Z")
 
 @Controller
 public class SimulationLoanApplicationApiController implements SimulationLoanApplicationApi {
