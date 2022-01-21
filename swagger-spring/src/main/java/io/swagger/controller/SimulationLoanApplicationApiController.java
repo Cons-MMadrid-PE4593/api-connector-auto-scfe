@@ -24,8 +24,8 @@ import com.santander.gqs.client.ObjectFactory;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.api.SimulationLoanApplicationApi;
-import io.swagger.gqs.calculator.model.QuotingScheme;
-import io.swagger.gqs.getproducts.model.ProductsResponse;
+import io.swagger.model.gqs.calculator.QuotingScheme;
+import io.swagger.model.gqs.products.ProductsResponse;
 import io.swagger.util.GqsUtil;
 import io.swagger.ws.gqs.GqsClient;
 

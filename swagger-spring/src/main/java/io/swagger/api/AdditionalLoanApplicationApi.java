@@ -18,11 +18,11 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
 import io.swagger.model.ResponseError;
-import io.swagger.routing.route.model.InfoRoutingData;
-import io.swagger.routing.route.model.RoutingResponse;
+import io.swagger.model.routingservice.route.InfoRoutingData;
+import io.swagger.model.routingservice.route.RoutingResponse;
 
 @Validated
-@Api(value = "additionalLoanApplication", tags = {"auto-api-controller"})
+@Api(value = "additionalLoanApplication", tags = {"service-route"})
 
 public interface AdditionalLoanApplicationApi {
 

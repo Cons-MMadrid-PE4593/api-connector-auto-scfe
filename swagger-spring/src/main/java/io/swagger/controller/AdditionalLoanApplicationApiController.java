@@ -17,8 +17,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.api.AdditionalLoanApplicationApi;
-import io.swagger.routing.route.model.InfoRoutingData;
-import io.swagger.routing.route.model.RoutingResponse;
+import io.swagger.model.routingservice.route.InfoRoutingData;
+import io.swagger.model.routingservice.route.RoutingResponse;
 
 @Controller
 public class AdditionalLoanApplicationApiController implements AdditionalLoanApplicationApi {

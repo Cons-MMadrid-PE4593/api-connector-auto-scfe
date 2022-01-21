@@ -24,7 +24,7 @@ import com.santander.giws.client.ObjectFactory;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.api.VehiclesLoanApplicationApi;
-import io.swagger.giws.getvehicle.model.VehiclesResponse;
+import io.swagger.model.giws.vehicles.VehiclesResponse;
 import io.swagger.ws.giws.GiwsClient;
 
 

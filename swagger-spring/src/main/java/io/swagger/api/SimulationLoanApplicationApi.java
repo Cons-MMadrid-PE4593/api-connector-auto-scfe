@@ -17,9 +17,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
-import io.swagger.gqs.calculator.model.QuotingScheme;
-import io.swagger.gqs.getproducts.model.ProductsResponse;
 import io.swagger.model.ResponseError;
+import io.swagger.model.gqs.calculator.QuotingScheme;
+import io.swagger.model.gqs.products.ProductsResponse;
 
 
 @Validated

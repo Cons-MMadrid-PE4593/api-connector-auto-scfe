@@ -12,25 +12,37 @@ import org.springframework.ws.soap.SoapMessage;
 
 import com.santander.giws.client.GetVehicles;
 import com.santander.giws.client.GetVehiclesResponse;
+import com.santander.giws.client.MappingDataTypes;
+import com.santander.giws.client.MappingDataTypesResponse;
 
 
 public class GiwsClient extends WebServiceGatewaySupport {
 
 	public GiwsClient() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public GiwsClient(WebServiceMessageFactory messageFactory) {
 		super(messageFactory);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public GetVehiclesResponse vehiclesResponse (GetVehicles vehiclesRequest) {
-//		getWebServiceTemplate()
+
 		return (GetVehiclesResponse) getWebServiceTemplate().marshalSendAndReceive(vehiclesRequest, new WebServiceMessageCallback() {	
 			@Override
 			public void doWithMessage(WebServiceMessage message) throws IOException, TransformerException {
 				( (SoapMessage) message ).setSoapAction( "https://ficressp.santanderconsumer.com/getVehicles" );
+				
+			}
+		});
+	}
+	
+	public MappingDataTypesResponse mappingDataTypesResponse (MappingDataTypes mappingDataTypesRequest) {
+
+		return (MappingDataTypesResponse) getWebServiceTemplate().marshalSendAndReceive(mappingDataTypesRequest, new WebServiceMessageCallback() {	
+			@Override
+			public void doWithMessage(WebServiceMessage message) throws IOException, TransformerException {
+				( (SoapMessage) message ).setSoapAction( "https://ficressp.santanderconsumer.com/MappingDataTypes" );
 				
 			}
 		});

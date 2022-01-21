@@ -18,11 +18,11 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
-import io.swagger.giws.getvehicle.model.VehiclesResponse;
 import io.swagger.model.ResponseError;
+import io.swagger.model.giws.vehicles.VehiclesResponse;
 
 @Validated
-@Api(value = "vehiclesLoanApplication", tags = {"get-vehicles"})
+@Api(value = "vehiclesLoanApplication", tags = {"giws-vehicles"})
 
 public interface VehiclesLoanApplicationApi {
 
