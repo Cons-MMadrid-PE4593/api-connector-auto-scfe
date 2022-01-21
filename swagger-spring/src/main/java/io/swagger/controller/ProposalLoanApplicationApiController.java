@@ -162,7 +162,7 @@ public class ProposalLoanApplicationApiController implements ProposalLoanApplica
 				mappingDataTypesRequest.setPassword(password);
 				mappingDataTypeResponse = giwsClient.mappingDataTypesResponse(mappingDataTypesRequest);
 				String jsonStr = objectMapper.writeValueAsString(mappingDataTypeResponse);
-<<<<<>				return new ResponseEntity<MappingDataTypesResponse>(
+				return new ResponseEntity<MappingDataTypesResponse>(
 						objectMapper.readValue(jsonStr, MappingDataTypesResponse.class),
 						HttpStatus.OK);
 			} catch (IOException e) {
