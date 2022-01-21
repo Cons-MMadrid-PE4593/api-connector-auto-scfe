@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.santander.gqs.client.Calculate;
+import com.santander.gqs.client.CalculateResponse;
 import com.santander.gqs.client.GetProdutcs;
 import com.santander.gqs.client.GetProdutcsResponse;
 import com.santander.gqs.client.ObjectFactory;
@@ -53,7 +54,7 @@ public class SimulationLoanApplicationApiController implements SimulationLoanApp
 	        	calculateReq.setUser(user);
 	        	calculateReq.setPassword(password);
 	        	calculateReq.setXMLData(xmLDataCalculate);
-	        	com.santander.gqs.client.CalculateResponse calculatorResponse = gqsClient.getCalculateResponse(calculateReq);
+	        	CalculateResponse calculatorResponse = gqsClient.getCalculateResponse(calculateReq);
 	        	String result = calculatorResponse.getCalculateResult();
 	        	result = result.trim().replace("\n", "");
 	        	result = result.replace("\"", "'");

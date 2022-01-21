@@ -2,9 +2,6 @@ package io.swagger.api;
 
 
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2022-01-11T12:24:24.322Z")
-
-
 
 public class ApiResponseMessage {
     public static final int ERROR = 1;

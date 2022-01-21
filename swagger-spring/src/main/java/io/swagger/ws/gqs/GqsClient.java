@@ -18,12 +18,10 @@ import com.santander.gqs.client.GetProdutcsResponse;
 public class GqsClient extends WebServiceGatewaySupport {
 
 	public GqsClient() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public GqsClient(WebServiceMessageFactory messageFactory) {
 		super(messageFactory);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public GetProdutcsResponse getProductsResponse (GetProdutcs getProductsRequest) {

@@ -9,7 +9,16 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 
 @Configuration
-public class GqsConfiguration {
+public class GqsConfiguration{
+	
+	@Bean
+	public GqsClient gqsClient(Jaxb2Marshaller marshallerGqs) {
+		GqsClient gqsClient = new GqsClient();
+		gqsClient.setDefaultUri("https://ficresfrontcert.scftest.santanderconsumer.es/GQS/GQS.asmx");
+		gqsClient.setMarshaller(marshallerGqs);
+		gqsClient.setUnmarshaller(marshallerGqs);
+		return gqsClient;
+	}
 	
 	@Bean
 	public Jaxb2Marshaller marshaller() {
@@ -18,17 +27,8 @@ public class GqsConfiguration {
 		properties.put(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8");
 		properties.put(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		marshaller.setMarshallerProperties(properties);
-		marshaller.setContextPath("com.santander.gqs.client");
+		marshaller.setContextPaths("com.santander.gqs.client","com.santander.giws.client");
 		return marshaller;
-	}
-	
-	@Bean
-	public GqsClient gqsClient(Jaxb2Marshaller marshaller) {
-		GqsClient gqsClient = new GqsClient();
-		gqsClient.setDefaultUri("https://ficresfrontcert.scftest.santanderconsumer.es/GQS/GQS.asmx");
-		gqsClient.setMarshaller(marshaller);
-		gqsClient.setUnmarshaller(marshaller);
-		return gqsClient;
 	}
 
 }
