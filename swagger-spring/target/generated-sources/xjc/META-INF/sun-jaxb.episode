@@ -1,101 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <bindings xmlns="http://java.sun.com/xml/ns/jaxb" if-exists="true" version="2.1">
-      
-    <!--
+  <!--
 
 Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.3.0 
 Visite <a href="https://javaee.github.io/jaxb-v2/">https://javaee.github.io/jaxb-v2/</a> 
 Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
+<<<<<<< HEAD
 Generado el: 2022.01.21 a las 03:06:24 PM CET 
+=======
+Generado el: 2022.01.21 a las 10:13:17 AM CET 
+>>>>>>> 222ac66503026f6f083cacf033572e032beb8412
 
   -->
-      
-    <bindings xmlns:tns="https://ficressp.santanderconsumer.com" if-exists="true" scd="x-schema::tns">
-            
-        <schemaBindings map="false">
-                  
-            <package name="com.santander.giws.client"/>
-                
-        </schemaBindings>
-            
-        <bindings if-exists="true" scd="tns:VerRutaXSD">
-                  
-            <class ref="com.santander.giws.client.VerRutaXSD"/>
-                
-        </bindings>
-            
-        <bindings if-exists="true" scd="tns:VerRutaXSDResponse">
-                  
-            <class ref="com.santander.giws.client.VerRutaXSDResponse"/>
-                
-        </bindings>
-            
-        <bindings if-exists="true" scd="tns:getINE">
-                  
-            <class ref="com.santander.giws.client.GetINE"/>
-                
-        </bindings>
-            
-        <bindings if-exists="true" scd="tns:getINEResponse">
-                  
-            <class ref="com.santander.giws.client.GetINEResponse"/>
-                
-        </bindings>
-            
-        <bindings if-exists="true" scd="~tns:RespuestaINE">
-                  
-            <class ref="com.santander.giws.client.RespuestaINE"/>
-                
-        </bindings>
-            
-        <bindings if-exists="true" scd="tns:MappingDataTypes">
-                  
-            <class ref="com.santander.giws.client.MappingDataTypes"/>
-                
-        </bindings>
-            
-        <bindings if-exists="true" scd="tns:MappingDataTypesResponse">
-                  
-            <class ref="com.santander.giws.client.MappingDataTypesResponse"/>
-                
-        </bindings>
-            
-        <bindings if-exists="true" scd="~tns:ArrayOfDataType">
-                  
-            <class ref="com.santander.giws.client.ArrayOfDataType"/>
-                
-        </bindings>
-            
-        <bindings if-exists="true" scd="tns:getVehicles">
-                  
-            <class ref="com.santander.giws.client.GetVehicles"/>
-                
-        </bindings>
-            
-        <bindings if-exists="true" scd="tns:getVehiclesResponse">
-                  
-            <class ref="com.santander.giws.client.GetVehiclesResponse"/>
-                
-        </bindings>
-            
-        <bindings if-exists="true" scd="~tns:ArrayOfVehicle">
-                  
-            <class ref="com.santander.giws.client.ArrayOfVehicle"/>
-                
-        </bindings>
-            
-        <bindings if-exists="true" scd="~tns:DataType">
-                  
-            <class ref="com.santander.giws.client.DataType"/>
-                
-        </bindings>
-            
-        <bindings if-exists="true" scd="~tns:Vehicle">
-                  
-            <class ref="com.santander.giws.client.Vehicle"/>
-                
-        </bindings>
-          
+  <bindings xmlns:tns="https://ficressp.santanderconsumer.com" if-exists="true" scd="x-schema::tns">
+    <schemaBindings map="false">
+      <package name="com.santander.giws.client"/>
+    </schemaBindings>
+    <bindings if-exists="true" scd="tns:VerRutaXSD">
+      <class ref="com.santander.giws.client.VerRutaXSD"/>
     </bindings>
-    
+    <bindings if-exists="true" scd="tns:VerRutaXSDResponse">
+      <class ref="com.santander.giws.client.VerRutaXSDResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:getINE">
+      <class ref="com.santander.giws.client.GetINE"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:getINEResponse">
+      <class ref="com.santander.giws.client.GetINEResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:RespuestaINE">
+      <class ref="com.santander.giws.client.RespuestaINE"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:MappingDataTypes">
+      <class ref="com.santander.giws.client.MappingDataTypes"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:MappingDataTypesResponse">
+      <class ref="com.santander.giws.client.MappingDataTypesResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:ArrayOfDataType">
+      <class ref="com.santander.giws.client.ArrayOfDataType"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:getVehicles">
+      <class ref="com.santander.giws.client.GetVehicles"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:getVehiclesResponse">
+      <class ref="com.santander.giws.client.GetVehiclesResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:ArrayOfVehicle">
+      <class ref="com.santander.giws.client.ArrayOfVehicle"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:DataType">
+      <class ref="com.santander.giws.client.DataType"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:Vehicle">
+      <class ref="com.santander.giws.client.Vehicle"/>
+    </bindings>
+  </bindings>
 </bindings>
