@@ -32,8 +32,8 @@ public class Product   {
 	public ProductValidations productValidations;
 	@JsonProperty("ProductFees") 
 	public ProductFees productFees;
-	@JsonProperty("CapCodes") 
-	public CapCodes capCodes;
+	@JsonProperty("CapCodes")
+	private CapCodes capCodes;
 	
 	public String getMarketIso() {
 		return marketIso;
@@ -119,11 +119,13 @@ public class Product   {
 	public void setProductFees(ProductFees productFees) {
 		this.productFees = productFees;
 	}
+	@JsonProperty("CapCodes")
 	public CapCodes getCapCodes() {
-		return capCodes;
+	return capCodes;
 	}
+	@JsonProperty("CapCodes")
 	public void setCapCodes(CapCodes capCodes) {
-		this.capCodes = capCodes;
+	this.capCodes = capCodes;
 	}
 }
 

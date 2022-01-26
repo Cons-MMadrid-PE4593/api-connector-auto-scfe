@@ -46,14 +46,14 @@ public class VehiclesLoanApplicationApiController implements VehiclesLoanApplica
     }
 
 	public ResponseEntity<VehiclesResponse> getVehicleByBrand(
-			@ApiParam(value = "include context object", required = true) @RequestHeader(value = "Context", required = true) String context,
-			@ApiParam(value = "Authorization token. Bearer OAuth2 token", required = true) @RequestHeader(value = "Authorization", required = true) String authorization,
-			@ApiParam(value = "metadata content type", required = true) @RequestHeader(value = "Content-Type", required = true) String contentType,
+//			@ApiParam(value = "include context object", required = true) @RequestHeader(value = "Context", required = true) String context,
+//			@ApiParam(value = "Authorization token. Bearer OAuth2 token", required = true) @RequestHeader(value = "Authorization", required = true) String authorization,
+			@ApiParam(value = "metadata content type", required = true, defaultValue = "application/json") @RequestHeader(value = "Content-Type", required = true, defaultValue = "application/json") String contentType,
 			@ApiParam(value = "Client Id header", required = true) @RequestHeader(value = "X-Santander-Client-Id", required = true) String xSantanderClientId,
-			@ApiParam(value = "The server response", required = true) @RequestHeader(value = "Accept", required = true) String accept,
+			@ApiParam(value = "The server response", required = true, defaultValue = "application/json") @RequestHeader(value = "Accept", required = true, defaultValue = "application/json") String accept,
 			@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "User", required = true) String user,
 			@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "Password", required = true) String password,
-			@ApiParam(value = "", required = true) @PathVariable("VehicleType") String vehicleType,
+			@ApiParam(value = "C car, M moto", required = true) @PathVariable("VehicleType") String vehicleType,
 			@ApiParam(value = "", required = true) @PathVariable("ManufacturerId") String manufacturerId,
 			@ApiParam(value = "Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.") @RequestHeader(value = "X-B3-TraceId", required = false) String xB3TraceId,
 			@ApiParam(value = "Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. ") @RequestHeader(value = "X-B3-ParentSpanId", required = false) String xB3ParentSpanId,
@@ -75,14 +75,14 @@ public class VehiclesLoanApplicationApiController implements VehiclesLoanApplica
 	}
 
 	public ResponseEntity<VehiclesResponse> getVehiclesByType(
-			@ApiParam(value = "include context object", required = true) @RequestHeader(value = "Context", required = true) String context,
-			@ApiParam(value = "Authorization token. Bearer OAuth2 token", required = true) @RequestHeader(value = "Authorization", required = true) String authorization,
-			@ApiParam(value = "metadata content type", required = true) @RequestHeader(value = "Content-Type", required = true) String contentType,
+//			@ApiParam(value = "include context object", required = true) @RequestHeader(value = "Context", required = true) String context,
+//			@ApiParam(value = "Authorization token. Bearer OAuth2 token", required = true) @RequestHeader(value = "Authorization", required = true) String authorization,
+			@ApiParam(value = "metadata content type", required = true, defaultValue = "application/json") @RequestHeader(value = "Content-Type", required = true, defaultValue = "application/json") String contentType,
 			@ApiParam(value = "Client Id header", required = true) @RequestHeader(value = "X-Santander-Client-Id", required = true) String xSantanderClientId,
-			@ApiParam(value = "The server response", required = true) @RequestHeader(value = "Accept", required = true) String accept,
+			@ApiParam(value = "The server response", required = true, defaultValue = "application/json") @RequestHeader(value = "Accept", required = true, defaultValue = "application/json") String accept,
 			@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "User", required = true) String user,
 			@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "Password", required = true) String password,
-			@ApiParam(value = "", required = true) @PathVariable("VehicleType") String vehicleType,
+			@ApiParam(value = "C car, M moto", required = true) @PathVariable("VehicleType") String vehicleType,
 			@ApiParam(value = "Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.") @RequestHeader(value = "X-B3-TraceId", required = false) String xB3TraceId,
 			@ApiParam(value = "Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. ") @RequestHeader(value = "X-B3-ParentSpanId", required = false) String xB3ParentSpanId,
 			@ApiParam(value = "Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.") @RequestHeader(value = "X-B3-SpanId", required = false) String xB3SpanId,
@@ -103,14 +103,14 @@ public class VehiclesLoanApplicationApiController implements VehiclesLoanApplica
 	}
 
 	public ResponseEntity<VehiclesResponse> getVehiclesByTypeAndManufacturerAndModel(
-			@ApiParam(value = "include context object", required = true) @RequestHeader(value = "Context", required = true) String context,
-			@ApiParam(value = "Authorization token. Bearer OAuth2 token", required = true) @RequestHeader(value = "Authorization", required = true) String authorization,
-			@ApiParam(value = "metadata content type", required = true) @RequestHeader(value = "Content-Type", required = true) String contentType,
+//			@ApiParam(value = "include context object", required = true) @RequestHeader(value = "Context", required = true) String context,
+//			@ApiParam(value = "Authorization token. Bearer OAuth2 token", required = true) @RequestHeader(value = "Authorization", required = true) String authorization,
+			@ApiParam(value = "metadata content type", required = true, defaultValue = "application/json") @RequestHeader(value = "Content-Type", required = true, defaultValue = "application/json") String contentType,
 			@ApiParam(value = "Client Id header", required = true) @RequestHeader(value = "X-Santander-Client-Id", required = true) String xSantanderClientId,
-			@ApiParam(value = "The server response", required = true) @RequestHeader(value = "Accept", required = true) String accept,
+			@ApiParam(value = "The server response", required = true, defaultValue = "application/json") @RequestHeader(value = "Accept", required = true, defaultValue = "application/json") String accept,
 			@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "User", required = true) String user,
 			@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "Password", required = true) String password,
-			@ApiParam(value = "", required = true) @PathVariable("VehicleType") String vehicleType,
+			@ApiParam(value = "C car, M moto", required = true) @PathVariable("VehicleType") String vehicleType,
 			@ApiParam(value = "", required = true) @PathVariable("ManufacturerId") String manufacturerId,
 			@ApiParam(value = "", required = true) @PathVariable("ModelId") String modelId,
 			@ApiParam(value = "Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.") @RequestHeader(value = "X-B3-TraceId", required = false) String xB3TraceId,

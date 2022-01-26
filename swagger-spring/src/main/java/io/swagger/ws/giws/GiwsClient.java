@@ -16,6 +16,7 @@ import com.santander.giws.client.MappingDataTypes;
 import com.santander.giws.client.MappingDataTypesResponse;
 
 
+
 public class GiwsClient extends WebServiceGatewaySupport {
 
 	public GiwsClient() {
