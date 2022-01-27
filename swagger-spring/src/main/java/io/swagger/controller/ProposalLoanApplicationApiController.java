@@ -1,10 +1,14 @@
 package io.swagger.controller;
 
 import java.io.IOException;
+import java.io.StringReader;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,20 +20,22 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.santander.giws.client.MappingDataTypes;
 import com.santander.giws.client.ObjectFactory;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.api.ProposalLoanApplicationApi;
 import io.swagger.model.ProposalResponse;
+import io.swagger.model.SubmitThirdPartiesResponse;
 import io.swagger.model.giws.mappingdatatypes.MappingDataTypesResponse;
+import io.swagger.model.giws.submitthirdparties.Envelope;
 import io.swagger.ws.giws.GiwsClient;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 @Controller
 public class ProposalLoanApplicationApiController implements ProposalLoanApplicationApi {
@@ -159,8 +165,9 @@ public class ProposalLoanApplicationApiController implements ProposalLoanApplica
 	}
 
 	
+	@SuppressWarnings("deprecation")
 	@Override
-	public ResponseEntity<ProposalResponse> getSubmitThirdParties(
+	public ResponseEntity<SubmitThirdPartiesResponse> getSubmitThirdParties(
 			@ApiParam(value = "include context object", required = true) @RequestHeader(value = "Context", required = true) String context,
 			@ApiParam(value = "Authorization token. Bearer OAuth2 token", required = true) @RequestHeader(value = "Authorization", required = true) String authorization,
 			@ApiParam(value = "metadata content type", required = true) @RequestHeader(value = "Content-Type", required = true) String contentType,
@@ -176,29 +183,40 @@ public class ProposalLoanApplicationApiController implements ProposalLoanApplica
 		String accept1 = request.getHeader("Accept");
 		if (accept1 != null && accept1.contains("application/json")) {
 			try {
+
+				String soapEnv = "<soapenv:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:fic='https://ficressp.santanderconsumer.com/'><soapenv:Header/><soapenv:Body><fic:submitThirdParties><userId>"
+						+ user + "</userId><password>"
+						+ password+ "</password><originatorId>?</originatorId><underwriterId>?</underwriterId><originatorProposalReference>?</originatorProposalReference><underwriterProposalReference>?</underwriterProposalReference><operationType>?</operationType><operationData>"
+						+ operationData + "</operationData><token>?</token></fic:submitThirdParties></soapenv:Body></soapenv:Envelope>";
 				OkHttpClient client = new OkHttpClient().newBuilder()
 						  .build();
 				MediaType mediaType = MediaType.parse("text/xml; charset=utf-8");
-				RequestBody body = RequestBody.create(mediaType, "<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:fic=\"https://ficressp.santanderconsumer.com/\"><soapenv:Header/><soapenv:Body><fic:submitThirdParties soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"><userId xsi:type=\"xsd:string\">jcm</userId><password xsi:type=\"xsd:string\">jcm</password><originatorId xsi:type=\"xsd:string\">?</originatorId><underwriterId xsi:type=\"xsd:string\">?</underwriterId><originatorProposalReference xsi:type=\"xsd:string\">?</originatorProposalReference><underwriterProposalReference xsi:type=\"xsd:string\">?</underwriterProposalReference><operationType xsi:type=\"xsd:string\">?</operationType><operationData xsi:type=\"xsd:string\">test</operationData><token xsi:type=\"xsd:string\">?</token></fic:submitThirdParties></soapenv:Body></soapenv:Envelope>");
-				Request request = new Request.Builder()
+				RequestBody body = RequestBody.create(mediaType, soapEnv);
+						Request request = new Request.Builder()
 						  .url("https://ficresfrontcert.scftest.santanderconsumer.es/giws/scproposalprocess.asmx")
 						  .method("POST", body)
 						  .addHeader("Content-Type", "text/xml; charset=utf-8")
 						  .addHeader("SOAPAction", "urn:SCProposalServiceTP")
 						  .build();
 						Response response = client.newCall(request).execute();
-						response.body();
-						System.out.println("body respuesta" + response.body().string());
-				return new ResponseEntity<ProposalResponse>(
-						objectMapper.readValue("", ProposalResponse.class),
+
+						String respStr=response.body().string();
+						respStr = respStr.replace("soap:", "").replace("q1:", "");
+						JAXBContext jaxbContext = JAXBContext.newInstance(Envelope.class);
+			            Unmarshaller un = jaxbContext.createUnmarshaller();
+			            StringReader readerStr=new StringReader(respStr);
+			            Envelope soapEnvResp = (Envelope) un.unmarshal(readerStr);
+
+				return new ResponseEntity<SubmitThirdPartiesResponse>(
+						objectMapper.readValue(objectMapper.writeValueAsString(soapEnvResp.getBody().getSubmitThirdPartiesResponse()), SubmitThirdPartiesResponse.class),
 						HttpStatus.OK);
-			} catch (IOException e) {
+			} catch (IOException | JAXBException e) {
 				log.error("ClientAxisException" + e.getLocalizedMessage(), e.getLocalizedMessage());
-				return new ResponseEntity<ProposalResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+				return new ResponseEntity<SubmitThirdPartiesResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
 
-		return new ResponseEntity<ProposalResponse>(HttpStatus.NOT_IMPLEMENTED);
+		return new ResponseEntity<SubmitThirdPartiesResponse>(HttpStatus.NOT_IMPLEMENTED);
 	}
 
 }

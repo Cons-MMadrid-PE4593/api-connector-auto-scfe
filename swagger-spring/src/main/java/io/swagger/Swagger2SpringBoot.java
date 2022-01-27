@@ -14,6 +14,7 @@ import io.swagger.configuration.LocalDateConverter;
 import io.swagger.configuration.LocalDateTimeConverter;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+@SuppressWarnings("deprecation")
 @SpringBootApplication
 @EnableSwagger2
 @ComponentScan(basePackages = { "io.swagger", "io.swagger.api" , "io.swagger.configuration"})

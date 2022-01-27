@@ -20,6 +20,7 @@ import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
 import io.swagger.model.ProposalResponse;
 import io.swagger.model.ResponseError;
+import io.swagger.model.SubmitThirdPartiesResponse;
 import io.swagger.model.giws.mappingdatatypes.MappingDataTypesResponse;
 
 @Validated
@@ -108,13 +109,13 @@ public interface ProposalLoanApplicationApi {
 	@ApiOperation(value = "SubmitThirdParties, first call", nickname = "SubmitThirdParties", notes = "SubmitThirdParties first call", response = ProposalResponse.class, authorizations = {
 			@Authorization(value = "JWTProfile", scopes = {
 					@AuthorizationScope(scope = "sce", description = "sce") }) })
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "200 OK", response = ProposalResponse.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "200 OK", response = SubmitThirdPartiesResponse.class),
 			@ApiResponse(code = 400, message = "Bad Request", response = ResponseError.class),
 			@ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"),
 			@ApiResponse(code = 500, message = "Internal Error Server") })
 	@RequestMapping(value = "/proposalLoanApplication/loan/proposal/submit", produces = {
 			"application/json" }, consumes = { "application/json" }, method = RequestMethod.POST)
-	ResponseEntity<ProposalResponse> getSubmitThirdParties (
+	ResponseEntity<SubmitThirdPartiesResponse> getSubmitThirdParties (
 			@ApiParam(value = "include context object", required = true) @RequestHeader(value = "Context", required = true) String context,
 			@ApiParam(value = "Authorization token. Bearer OAuth2 token", required = true) @RequestHeader(value = "Authorization", required = true) String authorization,
 			@ApiParam(value = "metadata content type", required = true) @RequestHeader(value = "Content-Type", required = true) String contentType,
