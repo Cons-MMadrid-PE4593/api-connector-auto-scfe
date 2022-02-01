@@ -12,9 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +34,7 @@ import io.swagger.ws.giws.GiwsClient;
 
 
 @Controller
+@CrossOrigin (origins = "http://localhost:8080")
 public class VehiclesLoanApplicationApiController implements VehiclesLoanApplicationApi {
 
     private static final Logger log = LoggerFactory.getLogger(VehiclesLoanApplicationApiController.class);
@@ -44,7 +50,7 @@ public class VehiclesLoanApplicationApiController implements VehiclesLoanApplica
         this.objectMapper = objectMapper;
         this.request = request;
     }
-
+    
 	public ResponseEntity<VehiclesResponse> getVehicleByBrand(
 //			@ApiParam(value = "include context object", required = true) @RequestHeader(value = "Context", required = true) String context,
 //			@ApiParam(value = "Authorization token. Bearer OAuth2 token", required = true) @RequestHeader(value = "Authorization", required = true) String authorization,
@@ -73,7 +79,7 @@ public class VehiclesLoanApplicationApiController implements VehiclesLoanApplica
 
 		return new ResponseEntity<VehiclesResponse>(HttpStatus.NOT_IMPLEMENTED);
 	}
-
+    
 	public ResponseEntity<VehiclesResponse> getVehiclesByType(
 //			@ApiParam(value = "include context object", required = true) @RequestHeader(value = "Context", required = true) String context,
 //			@ApiParam(value = "Authorization token. Bearer OAuth2 token", required = true) @RequestHeader(value = "Authorization", required = true) String authorization,
@@ -131,6 +137,7 @@ public class VehiclesLoanApplicationApiController implements VehiclesLoanApplica
 
 		return new ResponseEntity<VehiclesResponse>(HttpStatus.NOT_IMPLEMENTED);
 	}
+	
     
 	private String generateJsonStrFromResponseService(String user, String password, String vehicleType,
 			String manufacturerId, String modelId) throws JsonProcessingException {
@@ -147,6 +154,10 @@ public class VehiclesLoanApplicationApiController implements VehiclesLoanApplica
 		vehiclesResponse = giwsClient.vehiclesResponse(vehiclesRequest);
 		String jsonStr = objectMapper.writeValueAsString(vehiclesResponse);
 		return jsonStr;
+	}
+
+	public ResponseEntity<String> dummyMethod() {
+		return new ResponseEntity<String>("Hola mundo",HttpStatus.OK);
 	}
 
 }

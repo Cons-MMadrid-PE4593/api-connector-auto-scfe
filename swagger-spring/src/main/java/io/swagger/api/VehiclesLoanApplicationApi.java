@@ -4,6 +4,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -22,6 +23,7 @@ import io.swagger.model.ResponseError;
 import io.swagger.model.giws.vehicles.VehiclesResponse;
 
 @Validated
+@Service
 @Api(value = "vehiclesLoanApplication", tags = {"giws-vehicles"})
 
 public interface VehiclesLoanApplicationApi {
@@ -97,5 +99,7 @@ public interface VehiclesLoanApplicationApi {
 			@ApiParam(value = "Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. ") @RequestHeader(value = "X-B3-ParentSpanId", required = false) String xB3ParentSpanId,
 			@ApiParam(value = "Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.") @RequestHeader(value = "X-B3-SpanId", required = false) String xB3SpanId,
 			@ApiParam(value = "Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID.  The possible values are 0 = Deny 1 = Accept d = Debug") @RequestHeader(value = "X-B3-Sampled", required = false) String xB3Sampled);
-
+	
+	@RequestMapping(value = "/vehiclesLoanApplication/loan/dummy", method = RequestMethod.GET)
+	ResponseEntity<String> dummyMethod();
 }
