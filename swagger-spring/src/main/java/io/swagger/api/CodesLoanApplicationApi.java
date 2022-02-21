@@ -36,6 +36,7 @@ public interface CodesLoanApplicationApi {
         @ApiResponse(code = 400, message = "Bad Request", response = ResponseError.class),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Internal Error Server") })
     @RequestMapping(value = "/codesLoanApplication/loan/dealer/{DealerId}/codes",
         produces = { "application/json" }, 

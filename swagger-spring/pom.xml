@@ -154,5 +154,10 @@
 		    <artifactId>okhttp</artifactId>
 		    <version>3.14.9</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
+		<dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
+        </dependency>
     </dependencies>
 </project>

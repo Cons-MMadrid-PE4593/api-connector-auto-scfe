@@ -1,0 +1,2073 @@
+swagger: '2.0'
+info:
+  description: Api Documentation
+  version: '1.0.0'
+  title: Api Documentation
+  termsOfService: urn:tos
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+      name: Team
+      email: team@gruposantander.com
+  x-santander-catalogation: 
+      bian-landscape-version: "8"
+      bian-business-area: “Business Support”
+      bian-business-domain: “Document Management and Archive”
+      bian-service-domain: "Document Services"  
+host: localhost:8080
+basePath: /AutoSCFE
+securityDefinitions:
+  JWTProfile:
+    type: "oauth2"
+    description: "OAuth Grant type, JWT Profile"
+    flow: "implicit"
+    scopes:
+     sce: "sce"
+    authorizationUrl: "https://tbd.santander.es"
+    x-tokenIntrospect:
+      url: "$(sca-security-url)"
+  X-Santander-Client-Id:
+    type: "apiKey"
+    in: "header"
+    name: "X-Santander-Client-Id"
+    description: "Client id header."
+tags:
+  - name: auto-api-controller
+    description: Additional Loan Proposal Api Controller
+  - name: giws-proposal
+    description: Proposal Loan Application Api Controller
+  - name: giws-vehicles
+    description: Vehicles Loan Application Api Controller
+  - name: gqs-services
+    description: Simulation Loan Application Api Controller
+  - name: service-route
+    description: Additional Loan Application Api Controller
+paths:
+  /additionalLoanApplication/loan/routing/route:
+    post:
+      tags:
+        - service-route
+      summary: Get route
+      description: Code information
+      operationId: requestRouting
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Authorization token. Bearer OAuth2 token
+          required: true
+          type: string
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+        - name: Context
+          in: header
+          description: include context object
+          required: true
+          type: string
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+        - in: body
+          name: infoRoutingData
+          description: infoRoutingData
+          required: true
+          schema:
+            $ref: '#/definitions/InfoRoutingData'
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/RoutingResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+  /additionalLoanProposal/loan/proposal/{ProposalId}/document:
+    post:
+      tags:
+        - auto-api-controller
+      summary: Upload documents to loan proposal
+      description: Upload documents to loan proposal
+      operationId: uploadDocument
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Authorization token. Bearer OAuth2 token
+          required: true
+          type: string
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+        - name: ContentType
+          in: query
+          description: ContentType
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: Context
+          in: header
+          description: include context object
+          required: true
+          type: string
+        - name: DataB64
+          in: query
+          description: DataB64
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: Extension
+          in: query
+          description: Extension
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: FileName
+          in: query
+          description: FileName
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: Password
+          in: query
+          description: Password
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: ProposalId
+          in: path
+          description: ProposalId
+          required: true
+          type: string
+        - name: User
+          in: query
+          description: User
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/UploadDocumentResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+  /codesLoanApplication/loan/dealer/{DealerId}/codes:
+    get:
+      tags:
+        - auto-api-controller
+      summary: Special codes to make a proposal
+      description: Get codes to make a proposal
+      operationId: getCodes
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Authorization token. Bearer OAuth2 token
+          required: true
+          type: string
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+        - name: Context
+          in: header
+          description: include context object
+          required: true
+          type: string
+        - name: DealerId
+          in: path
+          description: DealerId
+          required: true
+          type: string
+        - name: Password
+          in: query
+          description: Password
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: User
+          in: query
+          description: User
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/CodesResponse'
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+  /proposalLoanApplication/loan/proposal/mappingData:
+    get:
+      tags:
+        - giws-proposal
+      summary: Mapping Data types
+      description: Get Data types to build a proposal
+      operationId: getMappingDataTypes
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Authorization token. Bearer OAuth2 token
+          required: true
+          type: string
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+        - name: Context
+          in: header
+          description: include context object
+          required: true
+          type: string
+        - name: Password
+          in: query
+          description: Password
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: User
+          in: query
+          description: User
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/MappingDataTypesResponse'
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+  /proposalLoanApplication/loan/proposal/submit:
+    post:
+      tags:
+        - giws-proposal
+      summary: SubmitThirdParties, first call
+      description: SubmitThirdParties first call
+      operationId: SubmitThirdParties
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Authorization token. Bearer OAuth2 token
+          required: true
+          type: string
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+        - name: Context
+          in: header
+          description: include context object
+          required: true
+          type: string
+        - name: OperationData
+          in: query
+          description: OperationData
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: Password
+          in: query
+          description: Password
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: User
+          in: query
+          description: User
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/SubmitThirdPartiesResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+  /proposalLoanApplication/loan/proposal/{ProposalId}:
+    put:
+      tags:
+        - giws-proposal
+      summary: Set Proposal, second call
+      description: Save proposal
+      operationId: saveProposal
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Authorization token. Bearer OAuth2 token
+          required: true
+          type: string
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+        - name: Context
+          in: header
+          description: include context object
+          required: true
+          type: string
+        - name: OperationData
+          in: query
+          description: OperationData
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: OperationType
+          in: query
+          description: OperationType
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: OriginatorId
+          in: query
+          description: OriginatorId
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: Password
+          in: query
+          description: Password
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: ProposalId
+          in: path
+          description: ProposalId
+          required: true
+          type: string
+        - name: Token
+          in: query
+          description: Token
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: User
+          in: query
+          description: User
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/ProposalResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+  /proposalLoanApplication/loan/proposalINE:
+    post:
+      tags:
+        - giws-proposal
+      summary: Set Proposal, first call from INE
+      description: Get proposal data from INE
+      operationId: getProposalINE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Authorization token. Bearer OAuth2 token
+          required: true
+          type: string
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+        - name: Context
+          in: header
+          description: include context object
+          required: true
+          type: string
+        - name: OperationData
+          in: query
+          description: OperationData
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: OperationType
+          in: query
+          description: OperationType
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: OriginatorId
+          in: query
+          description: OriginatorId
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: OriginatorProposalReference
+          in: query
+          description: OriginatorProposalReference
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: Password
+          in: query
+          description: Password
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: User
+          in: query
+          description: User
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/ProposalResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+  /signLoanApplication/loan/proposal/{ProposalId}/signContract:
+    put:
+      tags:
+        - auto-api-controller
+      summary: Submit Proposal, second call submit third parties
+      description: Submit proposal
+      operationId: submitProposal
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Authorization token. Bearer OAuth2 token
+          required: true
+          type: string
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+        - name: Context
+          in: header
+          description: include context object
+          required: true
+          type: string
+        - name: OperationData
+          in: query
+          description: OperationData
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: OperationType
+          in: query
+          description: OperationType
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: OriginatorId
+          in: query
+          description: OriginatorId
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: Password
+          in: query
+          description: Password
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: ProposalId
+          in: path
+          description: ProposalId
+          required: true
+          type: string
+        - name: Token
+          in: query
+          description: Token
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: User
+          in: query
+          description: User
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/ProposalResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+  /signLoanApplication/loan/proposal/{ProposalId}/signINE:
+    get:
+      tags:
+        - auto-api-controller
+      summary: Active Products by Dealer
+      description: Available Products List for this dealerr
+      operationId: getProducts
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Authorization token. Bearer OAuth2 token
+          required: true
+          type: string
+        - name: BusinessUnit
+          in: query
+          description: BusinessUnit
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+        - name: Context
+          in: header
+          description: include context object
+          required: true
+          type: string
+        - name: ProposalId
+          in: path
+          description: ProposalId
+          required: true
+          type: string
+        - name: Version
+          in: query
+          description: Version
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+        - name: XMLDataGetProducts
+          in: query
+          description: XMLDataGetProducts
+          required: true
+          type: string
+          allowEmptyValue: false
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/ProposalResponse'
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+  /simulationLoanApplication/loan/proposal/products:
+    get:
+      tags:
+        - gqs-services
+      summary: Get products
+      description: GQS Products information
+      operationId: requestProducts
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+          default: application/json
+        - name: BusinessUnit
+          in: query
+          description: BusinessUnit
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+          default: application/json
+        - name: Version
+          in: query
+          description: Version
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+        - name: XMLDataGetProducts
+          in: query
+          description: XMLDataGetProducts
+          required: true
+          type: string
+          allowEmptyValue: false
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/ProductsResponse'
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+  /simulationLoanApplication/loan/proposal/simulation:
+    post:
+      tags:
+        - gqs-services
+      summary: Calculate one quote
+      description: Get example loan cuotes for dealer
+      operationId: getSimulation
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+          default: application/json
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+          default: application/json
+        - name: Password
+          in: query
+          description: Password
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: User
+          in: query
+          description: User
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+        - name: XMLDataCalculate
+          in: query
+          description: XMLDataCalculate
+          required: true
+          type: string
+          allowEmptyValue: false
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/QuotingScheme'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+  /statusLoanApplication/loan/proposal/{ProposalId}/status:
+    get:
+      tags:
+        - auto-api-controller
+      summary: Get status of a loan proposal
+      description: get status of a loan proposal
+      operationId: getStatus
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Authorization token. Bearer OAuth2 token
+          required: true
+          type: string
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+        - name: Context
+          in: header
+          description: include context object
+          required: true
+          type: string
+        - name: OriginatorId
+          in: query
+          description: OriginatorId
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: Password
+          in: query
+          description: Password
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: ProposalId
+          in: path
+          description: ProposalId
+          required: true
+          type: string
+        - name: Token
+          in: query
+          description: Token
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: User
+          in: query
+          description: User
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/StatusResponse'
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+  /vehiclesLoanApplication/loan/dummy:
+    get:
+      tags:
+        - giws-vehicles
+      summary: dummyMethod
+      operationId: dummyMethodUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /vehiclesLoanApplication/loan/vehicles/{VehicleType}:
+    get:
+      tags:
+        - giws-vehicles
+      summary: Availables vehicles list by VehicleType
+      description: Available Vehicles List by vehicle type
+      operationId: getVehiclesByType
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+          default: application/json
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+          default: application/json
+        - name: Password
+          in: query
+          description: Password
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: User
+          in: query
+          description: User
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: VehicleType
+          in: path
+          description: C car, M moto
+          required: true
+          type: string
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/VehiclesResponse'
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+  /vehiclesLoanApplication/loan/vehicles/{VehicleType}/{ManufacturerId}:
+    get:
+      tags:
+        - giws-vehicles
+      summary: Availables vehicles list by VehicleType and ManufacturerId
+      description: Available Vehicles List by VehicleType and ManufacturerId
+      operationId: getVehicleByBrand
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+          default: application/json
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+          default: application/json
+        - name: ManufacturerId
+          in: path
+          description: ManufacturerId
+          required: true
+          type: string
+        - name: Password
+          in: query
+          description: Password
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: User
+          in: query
+          description: User
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: VehicleType
+          in: path
+          description: C car, M moto
+          required: true
+          type: string
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/VehiclesResponse'
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+  /vehiclesLoanApplication/loan/vehicles/{VehicleType}/{ManufacturerId}/{ModelId}:
+    get:
+      tags:
+        - giws-vehicles
+      summary: Availables vehicles list by VehicleType and ManufacturerId and ModelId
+      description: Available Vehicles List by vehicle type and ManufacturerId and ModelId
+      operationId: getVehiclesByTypeAndManufactureAndModel
+      produces:
+        - application/json
+      parameters:
+        - name: Accept
+          in: header
+          description: The server response
+          required: true
+          type: string
+          default: application/json
+        - name: Content-Type
+          in: header
+          description: metadata content type
+          required: true
+          type: string
+          default: application/json
+        - name: ManufacturerId
+          in: path
+          description: ManufacturerId
+          required: true
+          type: string
+        - name: ModelId
+          in: path
+          description: ModelId
+          required: true
+          type: string
+        - name: Password
+          in: query
+          description: Password
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: User
+          in: query
+          description: User
+          required: true
+          type: string
+          allowEmptyValue: false
+        - name: VehicleType
+          in: path
+          description: C car, M moto
+          required: true
+          type: string
+        - name: X-B3-ParentSpanId
+          in: header
+          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+          required: false
+          type: string
+        - name: X-B3-Sampled
+          in: header
+          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+          required: false
+          type: string
+        - name: X-B3-SpanId
+          in: header
+          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+          required: false
+          type: string
+        - name: X-B3-TraceId
+          in: header
+          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+          required: false
+          type: string
+        - name: X-Santander-Client-Id
+          in: header
+          description: Client Id header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/VehiclesResponse'
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+        - JWTProfile:
+            - sce
+      deprecated: false
+definitions:
+  Address:
+    type: object
+    properties:
+      city:
+        type: string
+      line1:
+        type: string
+      line2:
+        type: string
+      postalCode:
+        type: string
+      stateOrProvince:
+        type: string
+    title: Address
+  ApplicationArea:
+    type: object
+    properties:
+      sender:
+        $ref: '#/definitions/Sender'
+    title: ApplicationArea
+  ApplicationFunnel:
+    type: object
+    properties:
+      URL:
+        type: string
+      lifeSpan:
+        type: integer
+        format: int64
+    title: ApplicationFunnel
+  CapCodes:
+    type: object
+    properties:
+      CapCode:
+        type: array
+        items:
+          type: string
+    title: CapCodes
+  CodesResponse:
+    type: object
+    properties:
+      DataType:
+        type: object
+    title: CodesResponse
+  DataType:
+    type: object
+    properties:
+      DataType:
+        type: string
+      Id:
+        type: string
+      Value:
+        type: string
+    title: DataType
+  Error:
+    type: object
+    title: Error
+    additionalProperties:
+      type: object
+  Fees:
+    type: object
+    properties:
+      fee_type_id:
+        type: string
+      fixed_fee:
+        type: string
+      max_amount:
+        type: string
+      min_amount:
+        type: string
+      payment_id:
+        type: string
+      pct_max_fee:
+        type: string
+    title: Fees
+  FinanceProduct:
+    type: object
+    properties:
+      Product:
+        type: array
+        items:
+          $ref: '#/definitions/Product'
+    title: FinanceProduct
+  FinancialDataRequested:
+    type: object
+    properties:
+      applicationType:
+        type: string
+      damageInsurance:
+        type: string
+      downPayment:
+        type: integer
+        format: int32
+      employmentInsurance:
+        type: string
+      lifeInsurance:
+        type: string
+      paymentAmount:
+        type: number
+        format: double
+      productID:
+        type: string
+      termInMonths:
+        type: integer
+        format: int32
+    title: FinancialDataRequested
+  InfoRoutingData:
+    type: object
+    properties:
+      applicationArea:
+        $ref: '#/definitions/ApplicationArea'
+      financialDataRequested:
+        $ref: '#/definitions/FinancialDataRequested'
+      primaryApplicant:
+        $ref: '#/definitions/PrimaryApplicant'
+      requestMetadata:
+        $ref: '#/definitions/RequestMetadata'
+      userRedirectURL:
+        type: string
+      vehicleInfo:
+        $ref: '#/definitions/VehicleInfo'
+    title: InfoRoutingData
+  MappingDataTypesResponse:
+    type: object
+    properties:
+      MappingDataTypesResult:
+        $ref: '#/definitions/MappingDataTypesResult'
+    title: MappingDataTypesResponse
+  MappingDataTypesResult:
+    type: object
+    properties:
+      DataType:
+        type: array
+        items:
+          $ref: '#/definitions/DataType'
+    title: MappingDataTypesResult
+  Odometer:
+    type: object
+    properties:
+      UOM:
+        type: string
+      numUnits:
+        type: integer
+        format: int32
+    title: Odometer
+  PrimaryApplicant:
+    type: object
+    properties:
+      address:
+        $ref: '#/definitions/Address'
+      applicantType:
+        type: string
+      customerType:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+    title: PrimaryApplicant
+  Product:
+    type: object
+    properties:
+      CapCodes:
+        $ref: '#/definitions/CapCodes'
+      DefaultCurrency:
+        type: string
+      DefaultRate:
+        type: string
+      ManufacturerDepositContribution:
+        type: string
+      MarketIso:
+        type: string
+      MaxPayment:
+        type: string
+      ProductDesc:
+        type: string
+      ProductEndDate:
+        type: string
+      ProductFees:
+        $ref: '#/definitions/ProductFees'
+      ProductId:
+        type: string
+      ProductOnline:
+        type: string
+      ProductStartDate:
+        type: string
+      ProductTypeDesc:
+        type: string
+      ProductTypeId:
+        type: string
+      ProductValidations:
+        $ref: '#/definitions/ProductValidations'
+    title: Product
+  ProductFees:
+    type: object
+    properties:
+      Fees:
+        $ref: '#/definitions/Fees'
+    title: ProductFees
+  ProductValidations:
+    type: object
+    properties:
+      Validation:
+        $ref: '#/definitions/Validation'
+    title: ProductValidations
+  ProductsResponse:
+    type: object
+    properties:
+      FinanceProduct:
+        $ref: '#/definitions/FinanceProduct'
+      XmlData:
+        type: string
+    title: ProductsResponse
+  ProposalResponse:
+    type: object
+    properties:
+      ProposalId:
+        type: string
+      Return:
+        type: string
+      Token:
+        type: string
+      return:
+        type: string
+    title: ProposalResponse
+  QuoteTable:
+    type: object
+    properties:
+      APR:
+        type: string
+      Capital:
+        type: string
+      IRR:
+        type: string
+      IRR2:
+        type: string
+      InsuranceAmount:
+        type: string
+      MonthInterest:
+        type: string
+      MonthQuote:
+        type: string
+      QuoteID:
+        type: string
+    title: QuoteTable
+  QuotingScheme:
+    type: object
+    properties:
+      QuoteTable:
+        type: array
+        items:
+          $ref: '#/definitions/QuoteTable'
+      SummaryTable:
+        type: array
+        items:
+          $ref: '#/definitions/SummaryTable'
+      TotalTable:
+        $ref: '#/definitions/TotalTable'
+      XmlData:
+        type: string
+      text_format:
+        type: array
+        items:
+          $ref: '#/definitions/TextFormat'
+    title: QuotingScheme
+  Registration:
+    type: object
+    properties:
+      firstDate:
+        type: string
+      plate:
+        type: string
+    title: Registration
+  RequestMetadata:
+    type: object
+    properties:
+      conversationID:
+        type: string
+      countryCode:
+        type: string
+      currency:
+        type: string
+      referenceNumber:
+        type: string
+    title: RequestMetadata
+  RoutingResponse:
+    type: object
+    properties:
+      applicationFunnel:
+        $ref: '#/definitions/ApplicationFunnel'
+      financeID:
+        type: string
+    title: RoutingResponse
+  Sender:
+    type: object
+    properties:
+      ID:
+        type: string
+      language:
+        type: string
+      name:
+        type: string
+    title: Sender
+  StatusResponse:
+    type: object
+    properties:
+      ErrorDesc:
+        type: string
+      Return:
+        type: string
+      StatusId:
+        type: string
+      return:
+        type: string
+    title: StatusResponse
+  SubmitThirdPartiesResponse:
+    type: object
+    properties:
+      submitThirdPartiesResult:
+        type: string
+    title: SubmitThirdPartiesResponse
+  SummaryTable:
+    type: object
+    properties:
+      Amount:
+        type: string
+      NumItems:
+        type: string
+    title: SummaryTable
+  TextFormat:
+    type: object
+    properties:
+      bold:
+        type: string
+      size:
+        type: string
+      underline:
+        type: string
+    title: TextFormat
+  TotalTable:
+    type: object
+    properties:
+      FeesAmount:
+        type: string
+      FeesPercentage:
+        type: string
+      InsuranceAmount:
+        type: string
+      InsuranceDamageAmount:
+        type: string
+      InsuranceEmploymentAmount:
+        type: string
+      InsuranceLifeAmount:
+        type: string
+    title: TotalTable
+  UploadDocumentResponse:
+    type: object
+    properties:
+      Data:
+        type: string
+      Message:
+        type: string
+      Success:
+        type: string
+    title: UploadDocumentResponse
+  Validation:
+    type: object
+    properties:
+      MaxAmountFinanced:
+        type: string
+      MaxDeposit:
+        type: string
+      MaxPeriod:
+        type: string
+      MaxVehicleAgeAtEnd:
+        type: string
+      MaxVehicleAgeAtStart:
+        type: string
+      MinAmountFinanced:
+        type: string
+      MinDeposit:
+        type: string
+      MinPeriod:
+        type: string
+      MinVehicleAgeAtStart:
+        type: string
+      Period:
+        type: string
+      Rate:
+        type: string
+    title: Validation
+  Vehicle:
+    type: object
+    properties:
+      derivative:
+        type: string
+      discontinuedDate:
+        type: string
+      engineSize:
+        type: string
+      fuelTypeId:
+        type: string
+      idDerivative:
+        type: string
+      idManufacturer:
+        type: string
+      idModel:
+        type: string
+      introducedDate:
+        type: string
+      manufacturer:
+        type: string
+      model:
+        type: string
+      numDoors:
+        type: string
+      transmissionId:
+        type: string
+      value:
+        type: string
+      vehicleType:
+        type: string
+      vehicleTypeId:
+        type: string
+    title: Vehicle
+  VehicleInfo:
+    type: object
+    properties:
+      Odometer:
+        $ref: '#/definitions/Odometer'
+      VIN:
+        type: string
+      category:
+        type: string
+      dealerOwner:
+        type: string
+      manufacturer:
+        type: string
+      model:
+        type: string
+      modelID:
+        type: string
+      modelYear:
+        type: string
+      pictureURL:
+        type: string
+      registration:
+        $ref: '#/definitions/Registration'
+      saleClass:
+        type: string
+      trim:
+        type: string
+      vehiclePriceBreakdown:
+        $ref: '#/definitions/VehiclePriceBreakdown'
+    title: VehicleInfo
+  VehiclePriceBreakdown:
+    type: object
+    properties:
+      totalVehiclePrice:
+        type: integer
+        format: int32
+      vehiclePrice:
+        type: integer
+        format: int32
+    title: VehiclePriceBreakdown
+  VehiclesResponse:
+    type: object
+    properties:
+      VehiclesResult:
+        $ref: '#/definitions/VehiclesResult'
+    title: VehiclesResponse
+  VehiclesResult:
+    type: object
+    properties:
+      Vehicle:
+        type: array
+        items:
+          $ref: '#/definitions/Vehicle'
+    title: VehiclesResult
