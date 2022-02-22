@@ -1,20 +1,21 @@
-package io.swagger.model;
+package io.swagger.exception;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 import org.springframework.validation.annotation.Validated;
 
-import io.swagger.exception.ErrorUpload;
+import io.swagger.annotations.ApiModel;
 
 /**
- * ResponseUpload
+ * List of errors.
  */
+@ApiModel(description = "List of errors.")
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2022-01-11T12:24:24.322Z")
 
 
-public class ResponseUpload extends ArrayList<ErrorUpload>  {
+public class ErrorsList extends ArrayList<Error>  {
 
   /**
 	 * 
@@ -40,7 +41,7 @@ public class ResponseUpload extends ArrayList<ErrorUpload>  {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ResponseUpload {\n");
+    sb.append("class ErrorsList {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("}");
     return sb.toString();

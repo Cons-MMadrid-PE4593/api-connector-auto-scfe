@@ -18,8 +18,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
+import io.swagger.exception.ResponseError;
 import io.swagger.model.ProposalResponse;
-import io.swagger.model.ResponseError;
 import io.swagger.model.SubmitThirdPartiesResponse;
 import io.swagger.model.giws.mappingdatatypes.MappingDataTypesResponse;
 
