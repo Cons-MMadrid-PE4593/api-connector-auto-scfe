@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -31,6 +32,7 @@ import com.santander.giws.client.ObjectFactory;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.api.VehiclesLoanApplicationApi;
+import io.swagger.exception.CustomRestExceptionHandler;
 import io.swagger.model.giws.vehicles.VehiclesResponse;
 import io.swagger.ws.giws.GiwsClient;
 
@@ -157,6 +159,7 @@ public class VehiclesLoanApplicationApiController implements VehiclesLoanApplica
 		String jsonStr = objectMapper.writeValueAsString(vehiclesResponse);
 		return jsonStr;
 	}
+
 
 	public ResponseEntity<String> dummyMethod() {
 		try {

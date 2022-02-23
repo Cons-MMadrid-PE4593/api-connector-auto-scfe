@@ -1,18 +1,18 @@
 package io.swagger.exception;
 
-public class ApiValidationError extends Error {
+public class ResponseValidationError extends Error {
 	
     private String object;
     private String field;
     private Object rejectedValue;
     private String message;
 
-    ApiValidationError(String object, String message) {
+    ResponseValidationError(String object, String message) {
         this.object = object;
         this.message = message;
     }
 
-	public ApiValidationError(String object, String field, Object rejectedValue, String message) {
+	public ResponseValidationError(String object, String field, Object rejectedValue, String message) {
 		super();
 		this.object = object;
 		this.field = field;

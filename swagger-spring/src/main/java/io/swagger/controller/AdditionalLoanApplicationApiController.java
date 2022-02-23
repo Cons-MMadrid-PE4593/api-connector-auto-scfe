@@ -5,7 +5,6 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.net.http.HttpClient;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -17,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.util.CookieGenerator;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -25,8 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.api.AdditionalLoanApplicationApi;
-import io.swagger.exception.Error;
-import io.swagger.exception.ErrorsList;
 import io.swagger.exception.ResponseError;
 import io.swagger.model.routingservice.route.InfoRoutingData;
 import io.swagger.model.routingservice.route.RoutingResponse;
@@ -96,11 +92,8 @@ public class AdditionalLoanApplicationApiController implements AdditionalLoanApp
 				RoutingResponse routingResponse = new RoutingResponse();
 				int codeHttpResponse=response.code();
 				if(codeHttpResponse!=200) {
-					ResponseError responseError = new ResponseError();
-					ErrorsList errors = new ErrorsList();
-					Error error=new Error();
-//					error.setCode(String.valueOf(codeHttpResponse);
-					responseError.setErrors(errors );
+					ResponseError responseError = new ResponseError(HttpStatus.resolve(response.code()));
+
 				}
 				String respStr = response.body().string();
 				
