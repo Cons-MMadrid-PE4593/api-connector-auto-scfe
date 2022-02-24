@@ -1,6 +1,5 @@
 package com.scf.api.auto.exception;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -8,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,7 +35,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             MissingServletRequestParameterException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
         String error = ex.getParameterName() + " parameter is missing";
-        return buildResponseEntity(new ResponseError(BAD_REQUEST, error, ex));
+        return buildResponseEntity(new ResponseError(HttpStatus.BAD_REQUEST, error, ex));
     }
 
 
@@ -76,7 +76,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             HttpHeaders headers,
             HttpStatus status,
             WebRequest request) {
-        ResponseError apiError = new ResponseError(BAD_REQUEST);
+        ResponseError apiError = new ResponseError(HttpStatus.BAD_REQUEST);
         apiError.setMessage("Validation error");
         apiError.addValidationFieldErrors(ex.getBindingResult().getFieldErrors());
         apiError.addValidationObjectErrors(ex.getBindingResult().getGlobalErrors());
@@ -127,7 +127,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(
             NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        ResponseError apiError = new ResponseError(BAD_REQUEST);
+        ResponseError apiError = new ResponseError(HttpStatus.BAD_REQUEST);
         apiError.setMessage(String.format("Could not find the %s method for URL %s", ex.getHttpMethod(), ex.getRequestURL()));
         apiError.setDebugMessage(ex.getMessage());
         return buildResponseEntity(apiError);
@@ -143,15 +143,25 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
                                                                       WebRequest request) {
-        ResponseError apiError = new ResponseError(BAD_REQUEST);
+        ResponseError apiError = new ResponseError(HttpStatus.BAD_REQUEST);
         apiError.setMessage(String.format("The parameter '%s' of value '%s' could not be converted to type '%s'", ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName()));
         apiError.setDebugMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }
+ 
+	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
+		ResponseError apiError = new ResponseError(HttpStatus.METHOD_NOT_ALLOWED);
+		StringBuilder soportedMethods = new StringBuilder();
+		ex.getSupportedHttpMethods().forEach(t -> soportedMethods.append(t + ""));
+		apiError.setMessage(String.format("'%s' method is not supported for this request. Supported methods are '%s'",
+				ex.getMethod(), soportedMethods));
+		apiError.setDebugMessage(ex.getMessage());
+		return buildResponseEntity(apiError);
+	}
 
-    private ResponseEntity<Object> buildResponseEntity(ResponseError apiError) {
-        return ResponseEntity.status(apiError.getStatus()).body(apiError);
-    }
-
+	private ResponseEntity<Object> buildResponseEntity(ResponseError apiError) {
+		return ResponseEntity.status(apiError.getStatus()).body(apiError);
+	}
 }

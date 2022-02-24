@@ -16,7 +16,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 @WebMvcTest
 public class SwaggerDefinitionTest {
-	private static final String URL_PREFIX = "http://localhost:8080/AutoSCFE";
 	
 	@Autowired
 	private MockMvc mockMvc;

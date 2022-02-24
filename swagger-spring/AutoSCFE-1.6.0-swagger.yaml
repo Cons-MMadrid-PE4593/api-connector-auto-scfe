@@ -14,7 +14,7 @@ info:
       bian-landscape-version: "8"
       bian-business-area: “Business Support”
       bian-business-domain: “Document Management and Archive”
-      bian-service-domain: "Document Services"  
+      bian-service-domain: "Document Services" 
 host: localhost:8080
 basePath: /AutoSCFE
 securityDefinitions:
@@ -56,51 +56,15 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-        - name: Authorization
-          in: header
-          description: Authorization token. Bearer OAuth2 token
-          required: true
-          type: string
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
-        - name: Context
-          in: header
-          description: include context object
-          required: true
-          type: string
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
-          required: true
-          type: string
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ContextParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
         - in: body
           name: infoRoutingData
           description: infoRoutingData
@@ -144,32 +108,24 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-        - name: Authorization
-          in: header
-          description: Authorization token. Bearer OAuth2 token
-          required: true
-          type: string
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ContextParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
+        - $ref: '#/parameters/PasswordParam'
+        - $ref: '#/parameters/UserParam'
+        - $ref: '#/parameters/ProposalIdParam'
         - name: ContentType
           in: query
           description: ContentType
           required: true
           type: string
           allowEmptyValue: false
-        - name: Context
-          in: header
-          description: include context object
-          required: true
-          type: string
         - name: DataB64
           in: query
           description: DataB64
@@ -188,48 +144,6 @@ paths:
           required: true
           type: string
           allowEmptyValue: false
-        - name: Password
-          in: query
-          description: Password
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: ProposalId
-          in: path
-          description: ProposalId
-          required: true
-          type: string
-        - name: User
-          in: query
-          description: User
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
-          required: true
-          type: string
       responses:
         '200':
           description: 200 OK
@@ -265,66 +179,20 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-        - name: Authorization
-          in: header
-          description: Authorization token. Bearer OAuth2 token
-          required: true
-          type: string
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
-        - name: Context
-          in: header
-          description: include context object
-          required: true
-          type: string
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ContextParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
+        - $ref: '#/parameters/PasswordParam'
+        - $ref: '#/parameters/UserParam'
         - name: DealerId
           in: path
           description: DealerId
-          required: true
-          type: string
-        - name: Password
-          in: query
-          description: Password
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: User
-          in: query
-          description: User
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
           required: true
           type: string
       responses:
@@ -360,63 +228,17 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-        - name: Authorization
-          in: header
-          description: Authorization token. Bearer OAuth2 token
-          required: true
-          type: string
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
-        - name: Context
-          in: header
-          description: include context object
-          required: true
-          type: string
-        - name: Password
-          in: query
-          description: Password
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: User
-          in: query
-          description: User
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
-          required: true
-          type: string
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ContextParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
+        - $ref: '#/parameters/PasswordParam'
+        - $ref: '#/parameters/UserParam'
       responses:
         '200':
           description: 200 OK
@@ -452,69 +274,18 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-        - name: Authorization
-          in: header
-          description: Authorization token. Bearer OAuth2 token
-          required: true
-          type: string
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
-        - name: Context
-          in: header
-          description: include context object
-          required: true
-          type: string
-        - name: OperationData
-          in: query
-          description: OperationData
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: Password
-          in: query
-          description: Password
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: User
-          in: query
-          description: User
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
-          required: true
-          type: string
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ContextParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
+        - $ref: '#/parameters/PasswordParam'
+        - $ref: '#/parameters/UserParam'
+        - $ref: '#/parameters/OperationDataParam'
       responses:
         '200':
           description: 200 OK
@@ -552,92 +323,22 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-        - name: Authorization
-          in: header
-          description: Authorization token. Bearer OAuth2 token
-          required: true
-          type: string
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
-        - name: Context
-          in: header
-          description: include context object
-          required: true
-          type: string
-        - name: OperationData
-          in: query
-          description: OperationData
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: OperationType
-          in: query
-          description: OperationType
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: OriginatorId
-          in: query
-          description: OriginatorId
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: Password
-          in: query
-          description: Password
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: ProposalId
-          in: path
-          description: ProposalId
-          required: true
-          type: string
-        - name: Token
-          in: query
-          description: Token
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: User
-          in: query
-          description: User
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
-          required: true
-          type: string
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ContextParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
+        - $ref: '#/parameters/PasswordParam'
+        - $ref: '#/parameters/UserParam'
+        - $ref: '#/parameters/ProposalIdParam'
+        - $ref: '#/parameters/OperationDataParam'
+        - $ref: '#/parameters/OperationTypeParam'
+        - $ref: '#/parameters/OriginatorIdParam'
+        - $ref: '#/parameters/TokenParam'
       responses:
         '200':
           description: 200 OK
@@ -675,87 +376,26 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-        - name: Authorization
-          in: header
-          description: Authorization token. Bearer OAuth2 token
-          required: true
-          type: string
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
-        - name: Context
-          in: header
-          description: include context object
-          required: true
-          type: string
-        - name: OperationData
-          in: query
-          description: OperationData
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: OperationType
-          in: query
-          description: OperationType
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: OriginatorId
-          in: query
-          description: OriginatorId
-          required: true
-          type: string
-          allowEmptyValue: false
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ContextParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
+        - $ref: '#/parameters/PasswordParam'
+        - $ref: '#/parameters/UserParam'
+        - $ref: '#/parameters/OperationDataParam'
+        - $ref: '#/parameters/OperationTypeParam'
+        - $ref: '#/parameters/OriginatorIdParam'
         - name: OriginatorProposalReference
           in: query
           description: OriginatorProposalReference
           required: true
           type: string
           allowEmptyValue: false
-        - name: Password
-          in: query
-          description: Password
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: User
-          in: query
-          description: User
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
-          required: true
-          type: string
       responses:
         '200':
           description: 200 OK
@@ -793,92 +433,22 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-        - name: Authorization
-          in: header
-          description: Authorization token. Bearer OAuth2 token
-          required: true
-          type: string
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
-        - name: Context
-          in: header
-          description: include context object
-          required: true
-          type: string
-        - name: OperationData
-          in: query
-          description: OperationData
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: OperationType
-          in: query
-          description: OperationType
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: OriginatorId
-          in: query
-          description: OriginatorId
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: Password
-          in: query
-          description: Password
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: ProposalId
-          in: path
-          description: ProposalId
-          required: true
-          type: string
-        - name: Token
-          in: query
-          description: Token
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: User
-          in: query
-          description: User
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
-          required: true
-          type: string
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ContextParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
+        - $ref: '#/parameters/PasswordParam'
+        - $ref: '#/parameters/UserParam'
+        - $ref: '#/parameters/ProposalIdParam'
+        - $ref: '#/parameters/OperationDataParam'
+        - $ref: '#/parameters/OperationTypeParam'
+        - $ref: '#/parameters/OriginatorIdParam'
+        - $ref: '#/parameters/TokenParam'
       responses:
         '200':
           description: 200 OK
@@ -914,74 +484,16 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-        - name: Authorization
-          in: header
-          description: Authorization token. Bearer OAuth2 token
-          required: true
-          type: string
-        - name: BusinessUnit
-          in: query
-          description: BusinessUnit
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
-        - name: Context
-          in: header
-          description: include context object
-          required: true
-          type: string
-        - name: ProposalId
-          in: path
-          description: ProposalId
-          required: true
-          type: string
-        - name: Version
-          in: query
-          description: Version
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
-          required: true
-          type: string
-        - name: XMLDataGetProducts
-          in: query
-          description: XMLDataGetProducts
-          required: true
-          type: string
-          allowEmptyValue: false
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ContextParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
+        - $ref: '#/parameters/ProposalIdParam'
       responses:
         '200':
           description: 200 OK
@@ -1015,55 +527,25 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-          default: application/json
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
         - name: BusinessUnit
           in: query
           description: BusinessUnit
           required: true
           type: string
           allowEmptyValue: false
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
-          default: application/json
         - name: Version
           in: query
           description: Version
           required: true
           type: string
           allowEmptyValue: false
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
-          required: true
-          type: string
         - name: XMLDataGetProducts
           in: query
           description: XMLDataGetProducts
@@ -1105,55 +587,15 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-          default: application/json
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
-          default: application/json
-        - name: Password
-          in: query
-          description: Password
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: User
-          in: query
-          description: User
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
-          required: true
-          type: string
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
+        - $ref: '#/parameters/PasswordParam'
+        - $ref: '#/parameters/UserParam'
         - name: XMLDataCalculate
           in: query
           description: XMLDataCalculate
@@ -1195,80 +637,20 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-        - name: Authorization
-          in: header
-          description: Authorization token. Bearer OAuth2 token
-          required: true
-          type: string
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
-        - name: Context
-          in: header
-          description: include context object
-          required: true
-          type: string
-        - name: OriginatorId
-          in: query
-          description: OriginatorId
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: Password
-          in: query
-          description: Password
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: ProposalId
-          in: path
-          description: ProposalId
-          required: true
-          type: string
-        - name: Token
-          in: query
-          description: Token
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: User
-          in: query
-          description: User
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
-          required: true
-          type: string
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ContextParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
+        - $ref: '#/parameters/PasswordParam'
+        - $ref: '#/parameters/UserParam'
+        - $ref: '#/parameters/ProposalIdParam'
+        - $ref: '#/parameters/OriginatorIdParam'
+        - $ref: '#/parameters/TokenParam'
       responses:
         '200':
           description: 200 OK
@@ -1322,58 +704,18 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-          default: application/json
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
-          default: application/json
-        - name: Password
-          in: query
-          description: Password
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: User
-          in: query
-          description: User
-          required: true
-          type: string
-          allowEmptyValue: false
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
+        - $ref: '#/parameters/PasswordParam'
+        - $ref: '#/parameters/UserParam'
         - name: VehicleType
           in: path
           description: C car, M moto
-          required: true
-          type: string
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
           required: true
           type: string
       responses:
@@ -1409,63 +751,23 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-          default: application/json
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
-          default: application/json
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
+        - $ref: '#/parameters/PasswordParam'
+        - $ref: '#/parameters/UserParam'
         - name: ManufacturerId
           in: path
           description: ManufacturerId
           required: true
           type: string
-        - name: Password
-          in: query
-          description: Password
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: User
-          in: query
-          description: User
-          required: true
-          type: string
-          allowEmptyValue: false
         - name: VehicleType
           in: path
           description: C car, M moto
-          required: true
-          type: string
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
           required: true
           type: string
       responses:
@@ -1501,18 +803,15 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: Accept
-          in: header
-          description: The server response
-          required: true
-          type: string
-          default: application/json
-        - name: Content-Type
-          in: header
-          description: metadata content type
-          required: true
-          type: string
-          default: application/json
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - $ref: '#/parameters/SantanderClientIdParam'
+        - $ref: '#/parameters/PasswordParam'
+        - $ref: '#/parameters/UserParam'
         - name: ManufacturerId
           in: path
           description: ManufacturerId
@@ -1523,46 +822,9 @@ paths:
           description: ModelId
           required: true
           type: string
-        - name: Password
-          in: query
-          description: Password
-          required: true
-          type: string
-          allowEmptyValue: false
-        - name: User
-          in: query
-          description: User
-          required: true
-          type: string
-          allowEmptyValue: false
         - name: VehicleType
           in: path
           description: C car, M moto
-          required: true
-          type: string
-        - name: X-B3-ParentSpanId
-          in: header
-          description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
-          required: false
-          type: string
-        - name: X-B3-Sampled
-          in: header
-          description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
-          required: false
-          type: string
-        - name: X-B3-SpanId
-          in: header
-          description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
-          required: false
-          type: string
-        - name: X-B3-TraceId
-          in: header
-          description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
-          required: false
-          type: string
-        - name: X-Santander-Client-Id
-          in: header
-          description: Client Id header
           required: true
           type: string
       responses:
@@ -1589,6 +851,11 @@ paths:
             - sce
       deprecated: false
 definitions:
+  InputParamsSchema:
+    type: object
+    properties:
+      dealerCode:
+        type: string
   Address:
     type: object
     properties:
@@ -2071,3 +1338,108 @@ definitions:
         items:
           $ref: '#/definitions/Vehicle'
     title: VehiclesResult
+parameters:
+  AcceptParam:
+    name: Accept
+    type: string
+    in: header
+    description: The server response
+    required: true
+    default: application/json
+  AuthorizationParam:
+    name: Authorization
+    type: string
+    in: header
+    description: Authorization token. Bearer OAuth2 token
+    required: true
+  ContentTypeParam:
+    name: Content-Type
+    type: string
+    in: header
+    description: metadata content type
+    required: true
+    default: application/json
+  ContextParam:
+    name: Context
+    type: string
+    in: header
+    description: include context object
+    required: true
+  ParentSpanIdParam:
+    name: X-B3-ParentSpanId
+    type: string
+    in: header
+    description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+    required: false
+  SampledParam:
+    name: X-B3-Sampled
+    type: string
+    in: header
+    description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+    required: false
+  SpanIdParam:
+    name: X-B3-SpanId
+    type: string
+    in: header
+    description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+    required: false
+  TraceIdParam:
+    name: X-B3-TraceId
+    type: string
+    in: header
+    description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+    required: false
+  SantanderClientIdParam:
+    name: X-Santander-Client-Id
+    in: header
+    description: Client Id header
+    required: true
+    type: string
+  PasswordParam:
+    name: Password
+    type: string
+    in: query
+    description: Password
+    required: true
+    allowEmptyValue: false
+  UserParam:
+    name: User
+    type: string
+    in: query
+    description: User
+    required: true
+    allowEmptyValue: false
+  ProposalIdParam:
+    name: ProposalId
+    type: string
+    in: path
+    description: ProposalId
+    required: true
+  OperationDataParam:
+    name: OperationData
+    type: string
+    in: query
+    description: OperationData
+    required: true
+    allowEmptyValue: false
+  OperationTypeParam:
+    name: OperationType
+    type: string
+    in: query
+    description: OperationType
+    required: true
+    allowEmptyValue: false
+  OriginatorIdParam:
+    name: OriginatorId
+    type: string
+    in: query
+    description: OriginatorId
+    required: true
+    allowEmptyValue: false
+  TokenParam:
+    name: Token
+    type: string
+    in: query
+    description: Token
+    required: true
+    allowEmptyValue: false
