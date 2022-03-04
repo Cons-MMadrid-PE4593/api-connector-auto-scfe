@@ -18,6 +18,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.scf.api.auto.exception.ResponseError.StatusEnum;
+
 @RestControllerAdvice
 public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -35,7 +37,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             MissingServletRequestParameterException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
         String error = ex.getParameterName() + " parameter is missing";
-        return buildResponseEntity(new ResponseError(HttpStatus.BAD_REQUEST, error, ex));
+        return buildResponseEntity(new ResponseError(StatusEnum._400_BAD_REQUEST, error, ex));
     }
 
 
@@ -58,7 +60,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         builder.append(ex.getContentType());
         builder.append(" media type is not supported. Supported media types are ");
         ex.getSupportedMediaTypes().forEach(t -> builder.append(t).append(", "));
-        return buildResponseEntity(new ResponseError(HttpStatus.UNSUPPORTED_MEDIA_TYPE, builder.substring(0, builder.length() - 2), ex));
+        return buildResponseEntity(new ResponseError(StatusEnum._415_UNSUPPORTED_MEDIA_TYPE, builder.substring(0, builder.length() - 2), ex));
     }
 
     /**
@@ -76,7 +78,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             HttpHeaders headers,
             HttpStatus status,
             WebRequest request) {
-        ResponseError apiError = new ResponseError(HttpStatus.BAD_REQUEST);
+        ResponseError apiError = new ResponseError(StatusEnum._400_BAD_REQUEST);
         apiError.setMessage("Validation error");
         apiError.addValidationFieldErrors(ex.getBindingResult().getFieldErrors());
         apiError.addValidationObjectErrors(ex.getBindingResult().getGlobalErrors());
@@ -97,7 +99,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ServletWebRequest servletWebRequest = (ServletWebRequest) request;
         String error = "Malformed JSON request";
-        return buildResponseEntity(new ResponseError(HttpStatus.BAD_REQUEST, error, ex));
+        return buildResponseEntity(new ResponseError(StatusEnum._400_BAD_REQUEST, error, ex));
     }
 
     /**
@@ -112,7 +114,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotWritable(HttpMessageNotWritableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String error = "Error writing JSON output";
-        return buildResponseEntity(new ResponseError(HttpStatus.INTERNAL_SERVER_ERROR, error, ex));
+        return buildResponseEntity(new ResponseError(StatusEnum._500_INTERNAL_SERVER_ERROR, error, ex));
     }
 
     /**
@@ -127,7 +129,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(
             NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        ResponseError apiError = new ResponseError(HttpStatus.BAD_REQUEST);
+        ResponseError apiError = new ResponseError(StatusEnum._400_BAD_REQUEST);
         apiError.setMessage(String.format("Could not find the %s method for URL %s", ex.getHttpMethod(), ex.getRequestURL()));
         apiError.setDebugMessage(ex.getMessage());
         return buildResponseEntity(apiError);
@@ -143,7 +145,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
                                                                       WebRequest request) {
-        ResponseError apiError = new ResponseError(HttpStatus.BAD_REQUEST);
+        ResponseError apiError = new ResponseError(StatusEnum._406_NOT_ACCEPTABLE);
         apiError.setMessage(String.format("The parameter '%s' of value '%s' could not be converted to type '%s'", ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName()));
         apiError.setDebugMessage(ex.getMessage());
         return buildResponseEntity(apiError);
@@ -152,7 +154,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-		ResponseError apiError = new ResponseError(HttpStatus.METHOD_NOT_ALLOWED);
+		ResponseError apiError = new ResponseError(StatusEnum._405_METHOD_NOT_ALLOWED);
 		StringBuilder soportedMethods = new StringBuilder();
 		ex.getSupportedHttpMethods().forEach(t -> soportedMethods.append(t + ""));
 		apiError.setMessage(String.format("'%s' method is not supported for this request. Supported methods are '%s'",
@@ -162,6 +164,6 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	private ResponseEntity<Object> buildResponseEntity(ResponseError apiError) {
-		return ResponseEntity.status(apiError.getStatus()).body(apiError);
+		return ResponseEntity.status(HttpStatus.valueOf(apiError.getStatus().toString())).body(apiError);
 	}
 }

@@ -57,7 +57,7 @@ public class VehiclesLoanApplicationApiController implements VehiclesLoanApplica
 			@ApiParam(value = "The server response", required = true, defaultValue = "application/json") @RequestHeader(value = "Accept", required = true, defaultValue = "application/json") String accept,
 			@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "User", required = true) String user,
 			@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "Password", required = true) String password,
-			@ApiParam(value = "C car, M moto", required = true) @PathVariable("VehicleType") String vehicleType,
+			@ApiParam(value = "C car, M moto", required = true) @PathVariable("VehicleType") Character vehicleType,
 			@ApiParam(value = "", required = true) @PathVariable("ManufacturerId") String manufacturerId,
 			@ApiParam(value = "Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.") @RequestHeader(value = "X-B3-TraceId", required = false) String xB3TraceId,
 			@ApiParam(value = "Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. ") @RequestHeader(value = "X-B3-ParentSpanId", required = false) String xB3ParentSpanId,
@@ -86,7 +86,7 @@ public class VehiclesLoanApplicationApiController implements VehiclesLoanApplica
 			@ApiParam(value = "The server response", required = true, defaultValue = "application/json") @RequestHeader(value = "Accept", required = true, defaultValue = "application/json") String accept,
 			@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "User", required = true) String user,
 			@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "Password", required = true) String password,
-			@ApiParam(value = "C car, M moto", required = true) @PathVariable("VehicleType") String vehicleType,
+			@ApiParam(value = "C car, M moto", required = true) @PathVariable("VehicleType") Character vehicleType,
 			@ApiParam(value = "Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.") @RequestHeader(value = "X-B3-TraceId", required = false) String xB3TraceId,
 			@ApiParam(value = "Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. ") @RequestHeader(value = "X-B3-ParentSpanId", required = false) String xB3ParentSpanId,
 			@ApiParam(value = "Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.") @RequestHeader(value = "X-B3-SpanId", required = false) String xB3SpanId,
@@ -114,7 +114,7 @@ public class VehiclesLoanApplicationApiController implements VehiclesLoanApplica
 			@ApiParam(value = "The server response", required = true, defaultValue = "application/json") @RequestHeader(value = "Accept", required = true, defaultValue = "application/json") String accept,
 			@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "User", required = true) String user,
 			@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "Password", required = true) String password,
-			@ApiParam(value = "C car, M moto", required = true) @PathVariable("VehicleType") String vehicleType,
+			@ApiParam(value = "C car, M moto", required = true) @PathVariable("VehicleType") Character vehicleType,
 			@ApiParam(value = "", required = true) @PathVariable("ManufacturerId") String manufacturerId,
 			@ApiParam(value = "", required = true) @PathVariable("ModelId") String modelId,
 			@ApiParam(value = "Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.") @RequestHeader(value = "X-B3-TraceId", required = false) String xB3TraceId,
@@ -137,13 +137,13 @@ public class VehiclesLoanApplicationApiController implements VehiclesLoanApplica
 	}
 	
     
-	private String generateJsonStrFromResponseService(String user, String password, String vehicleType,
+	private String generateJsonStrFromResponseService(String user, String password, Character vehicleType,
 			String manufacturerId, String modelId) throws JsonProcessingException {
 		ObjectFactory objFactory = new ObjectFactory();
 		GetVehicles vehiclesRequest = new GetVehicles();
 		vehiclesRequest.setUserId(user);
 		vehiclesRequest.setPassword(password);
-		vehiclesRequest.setVehicleType(vehicleType);
+		vehiclesRequest.setVehicleType(String.valueOf(vehicleType));
 		if (null != manufacturerId)
 			vehiclesRequest.setManufacturerId(manufacturerId);
 		if (null != modelId)

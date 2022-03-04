@@ -7,7 +7,7 @@ public class ResponseValidationError extends Error {
     private Object rejectedValue;
     private String message;
 
-    ResponseValidationError(String object, String message) {
+    public ResponseValidationError(String object, String message) {
         this.object = object;
         this.message = message;
     }

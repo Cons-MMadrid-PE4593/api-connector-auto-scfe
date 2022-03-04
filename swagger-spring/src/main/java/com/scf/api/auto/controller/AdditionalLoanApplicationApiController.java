@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scf.api.auto.api.AdditionalLoanApplicationApi;
 import com.scf.api.auto.exception.ResponseError;
+import com.scf.api.auto.exception.ResponseError.StatusEnum;
 import com.scf.api.auto.model.routingservice.route.InfoRoutingData;
 import com.scf.api.auto.model.routingservice.route.RoutingResponse;
 import com.scf.api.auto.util.JavaNetCookieJar;
@@ -92,8 +93,8 @@ public class AdditionalLoanApplicationApiController implements AdditionalLoanApp
 				RoutingResponse routingResponse = new RoutingResponse();
 				int codeHttpResponse=response.code();
 				if(codeHttpResponse!=200) {
-					ResponseError responseError = new ResponseError(HttpStatus.resolve(response.code()));
-
+//					ResponseError responseError = new ResponseError(StatusEnum._400_BAD_REQUEST);
+					throw new IOException(StatusEnum._400_BAD_REQUEST.toString());
 				}
 				String respStr = response.body().string();
 				
