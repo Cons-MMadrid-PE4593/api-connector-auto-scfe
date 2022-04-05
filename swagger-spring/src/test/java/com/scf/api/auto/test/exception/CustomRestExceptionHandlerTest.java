@@ -38,8 +38,8 @@ class CustomRestExceptionHandlerTest {
     	RequestBuilder reqBuilder = MockMvcRequestBuilders.get(urlTemplate)
     			.accept(MediaType.APPLICATION_JSON)
     			.contentType(MediaType.APPLICATION_JSON).header("X-Santander-Client-Id", 123456);
-    	MvcResult result = mockMvc.perform(reqBuilder).andExpect(status().isBadRequest()).andReturn();
-    	assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus());
+    	MvcResult result = mockMvc.perform(reqBuilder).andExpect(status().isNotAcceptable()).andReturn();
+    	assertEquals(HttpStatus.NOT_ACCEPTABLE.value(), result.getResponse().getStatus());
 	}
 
 	@Test

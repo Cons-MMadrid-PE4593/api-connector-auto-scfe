@@ -105,10 +105,13 @@ public class SimulationLoanApplicationApiController implements SimulationLoanApp
 				GetProdutcsResponse productsRespose = gqsClient.getProductsResponse(getProductsRequest);
 				String result=productsRespose.getGetProdutcsResult();
 				ProductsResponse response = GqsUtil.getJsonFormatResponse(result, objectMapper, ProductsResponse.class);
-				response.setXmlData(result);
+//				ProductsResponse response = new ProductsResponse();
+//				response.setXmlData(result);
+				response.setXmlData("");
 				return new ResponseEntity<ProductsResponse> (response,HttpStatus.OK);
             } 
             catch (IOException e) {
+//            catch (Exception e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<ProductsResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
             }

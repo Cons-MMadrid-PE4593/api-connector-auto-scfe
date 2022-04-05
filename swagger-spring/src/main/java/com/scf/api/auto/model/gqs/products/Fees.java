@@ -1,5 +1,11 @@
 package com.scf.api.auto.model.gqs.products;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Fees {
@@ -15,6 +21,8 @@ public class Fees {
     public String fee_type_id;
 	@JsonProperty("pct_max_fee") 
     public String pct_max_fee;
+	@JsonIgnore
+	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	
 	public String getPayment_id() {
 		return payment_id;
@@ -51,6 +59,16 @@ public class Fees {
 	}
 	public void setPct_max_fee(String pct_max_fee) {
 		this.pct_max_fee = pct_max_fee;
+	}
+
+	@JsonAnyGetter
+	public Map<String, Object> getAdditionalProperties() {
+		return this.additionalProperties;
+	}
+
+	@JsonAnySetter
+	public void setAdditionalProperty(String name, Object value) {
+		this.additionalProperties.put(name, value);
 	}
     
 }
