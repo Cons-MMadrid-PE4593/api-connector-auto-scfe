@@ -1,0 +1,1144 @@
+swagger: "2.0"
+info:
+  description: SCF Routing Api
+  version: "1.0.0"
+  title: SCF Routing Api
+  termsOfService: urn:tos
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+      name: Team
+      email: team@gruposantander.com
+  x-santander-catalogation: 
+      bian-landscape-version: "8"
+      bian-business-area: “Business Support”
+      bian-business-domain: “Document Management and Archive”
+      bian-service-domain: "Document Services" 
+
+host: "api.solicitudefcinterno.scf.es.pre.corp"
+
+schemes:
+  - "http"
+securityDefinitions:
+  X-Santander-Client-Id:
+    type: "apiKey"
+    in: "header"
+    name: "X-Santander-Client-Id"
+    description: "Client secret key in header."
+  X-Santander-App-Id:
+    type: "apiKey"
+    in: "header"
+    name: "X-Santander-App-Id"
+    description: "Client id header."
+tags:
+  - name: "routing"
+    description: "Routing API"
+    
+paths:
+  /spawapi/routing/route:
+    post:
+      tags:
+        - routing proccess
+      summary: routing request
+      description: get url routing process
+      operationId: requestRouting
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/AcceptParam'
+        - $ref: '#/parameters/ContentTypeParam'
+        - $ref: '#/parameters/ParentSpanIdParam'
+        - $ref: '#/parameters/SampledParam'
+        - $ref: '#/parameters/SpanIdParam'
+        - $ref: '#/parameters/TraceIdParam'
+        - in: body
+          name: infoRoutingData
+          description: infoRoutingData
+          required: true
+          schema:
+            $ref: '#/definitions/InfoRoutingData'
+      responses:
+        '200':
+          description: 200 OK
+          schema:
+            $ref: '#/definitions/RoutingResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ResponseError'
+        '401':
+          description: Unauthorized
+          headers:
+            WWW_Authenticate:
+              type: string
+          schema:
+            $ref: '#/definitions/UnauthorizedError'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+       - X-Santander-Client-Id: []
+       - X-Santander-App-Id: []
+      deprecated: false
+  /spawapi/routing/status:
+    post:
+      tags:
+        - status webhook
+      summary: Not Enable, just documentation
+      description: get url routing process
+      operationId: StatusRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: BodyRequest
+          description: "Body Request"
+          required: true
+          schema:
+            $ref: '#/definitions/BodyRequest'
+      responses:
+        '200':
+          description: 200 OK
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ResponseError'
+        '401':
+          description: Unauthorized
+          headers:
+            WWW_Authenticate:
+              type: string
+          schema:
+            $ref: '#/definitions/UnauthorizedError'
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Error Server
+      security:
+       - X-Santander-Client-Id: []
+       - X-Santander-App-Id: []
+      
+definitions:
+  BodyRequest:
+    type: object
+    required:
+      - applicationArea
+      - requestMetadata
+      - decision
+      - applicants
+    properties:
+      applicationArea:
+        type: object
+        required:
+          - sender
+        properties:
+          sender:
+            type: object
+            required:
+              - parternID
+              - scfId
+            properties:
+              partnerID:
+                type: string
+                example: "RLL"
+                description: "Identifier corresponding to car manufacturer. (provided by SCF HQ)"
+              scfId:
+                type: string
+                example: "SCBNO"
+                description: "Local Bank / country (provided by SCF HQ)"
+            title: Sender
+        title: ApplicationArea
+      requestMetadata:
+        type: object
+        required:
+          - orderID
+          - callerTransactionID
+          - countryCode
+          - language
+          - currency
+          - financeId
+        properties:
+          orderID:
+            type: string
+            description: "Unique ID of the customer's order process. this orderId must be associated with the one previously received in the route service"
+            example: "ABCD15708"
+          callerTransactionID:
+            type: string
+            description: "Unique ID for each transaction to trace all call E2E. One orderID can have many callerTransactionID's (eg: customer decides to change type of financing)"
+            example: "SANTADE-1-1239767834"
+          countryCode:
+            type: string
+            description: "ISO 3166 Apha-2 code"
+            example: "ES"
+          language:
+            type: string
+            description: "Standard ISO 639-1:2002"
+            example: "ES"
+          currency:
+            type: string
+            description: "Standard ISO 4217 for currencies"
+            example: "EUR"
+          financeId:
+            type: string
+            description: "Id for the Finance in the local market. The value of this field must always be the same for the associated orderId in all calls.  It can change with respect to the one answered in the route service because it was generated in the back office and not in onBoarding process"
+            example: "74GXE32809"
+        title: RequestMetadata
+      resumeApplication:
+        $ref: '#/definitions/ResumeApplication'
+      decision:
+        $ref: '#/definitions/Decision'
+      applicants:
+        type: array
+        items:
+            $ref: '#/definitions/Applicants'
+      financialData:
+        $ref: '#/definitions/FinancialData'
+      settlementToPartner:
+        $ref: '#/definitions/SettlementToPartner'
+  
+  ResumeApplication:
+    type: object
+    required:
+      - url
+      - lifeSpan
+    description: "url so that the client can continue the onBoarding process (if not finished) from the partner. Normally this process of continuing onBoarding is carried out by the market itself (Santander)"
+    properties:
+      url:
+        type: string
+        description: "URL to the SCF Local Unit's Finance Portal It's necessary start with http  or https"
+        example: "https://example.scf.de/portal/"
+      lifeSpan:
+        type: integer
+        format: int64
+        description: "Above URL's life span in millisecond"
+        example: "15552000000"
+    title: ResumeApplication
+    
+  Decision:
+    type: object
+    required:
+      - applicationStatus
+    properties:
+      decisionDateTime:
+        type: string
+        description: "Decision timestamp"
+        example: "2017-11-22T22:05:10.00Z"
+      applicationStatus:
+        type: string
+        description: "Application Status: M -> Manual Underwriting / Pending --> Further details are requested to the Customer. It starts up a manual process by Operating team. At this stage the Finance request can be rejected. P -> Preapproved / Conditional Approval --> The proposal has been preapproved, meaning that from a solvency point of view it's OK, but still missing documents checks to be performed before final approval C -> Cancelled --> Customer decides to cancel the Finance request. R -> Rejected / Declined --> The Finance request is rejected by SCF Local units for fraud/risk reason. F -> Finalised / Completed --> Contract sign off. Money release to the Partner (withing 24h/48h)"
+        example: "A"
+      nextSteps:
+        type: array
+        items:
+          $ref: '#/definitions/NextSteps'
+      messagesForDealer:
+        type: array
+        items:
+          $ref: '#/definitions/MessagesForDealer'
+    title: Decision
+  NextSteps:
+    type: object
+    required:
+      - messageId
+    properties:
+      messageId:
+        type: string
+        description: "Id for the next steps description message"
+        example: "xxx"
+      descriptionMessageId:
+        type: string
+        description: "Additional documentation from customer is needed"
+        example: "A"
+      url:
+        type: string
+        description: "URL related to the next steps"
+        example: "https://www.santanderconsumer.com/uploaddoc/74GXE32809"
+  MessagesForDealer:
+    type: object
+    required:
+      - messageId
+    properties:
+      messageId:
+        type: string
+        description: "Id for the next steps description message"
+        example: "xxx"
+      descriptionMessageId:
+        type: string
+        description: "Additional documentation from customer is needed"
+        example: "A"
+        
+  Applicants:
+    type: object
+    description: "If there is a DPA agreement to share information, it would be advisable to include optional information"
+    required:
+      - applicantType
+      - customerType
+    properties:
+      customerId:
+        type: string
+        description: ""
+        example: "1"
+      applicantType:
+        type: string
+        description: "Enumerator: PrimaryApplicant, CoApplicant, Other"
+        example: "PrimaryApplicant"
+      customerType:
+        type: string
+        description: "Enumerator: PrimaryApplicant, Business"
+        example: "Private"
+      salutation:
+        type: string
+        description: "Enumerator: Mr., Mrs., Miss"
+        example: "xxx"
+      firstName:
+        type: string
+        description: "Id for the next steps description message"
+        example: "xxx"
+      lastName:
+        type: string
+        description: "Id for the next steps description message"
+        example: "xxx"
+      companyName:
+        type: string
+        description: "Mandatory if type is Business"
+        example: "SANTANDER"
+      email:
+        type: string
+        format: email
+      phone:
+        type: string
+      address:
+        type: object
+        required:
+          - street
+          - city
+          - postalCode
+          - countryCode
+        properties:
+          street:
+            type: string
+          houseNumber:
+            type: string
+          additionalInfo:
+            type: string
+          city:
+            type: string
+          postalCode:
+            type: string
+          stateOrProvince:
+            type: string
+            description: "DE-NW"
+            example: "ISO 3166-2"
+          countryCode:
+            type: string
+            description: "ISO 3166 Apha-2 code"
+            example: "DE"
+          dateOfBirth:
+            type: string
+            example: "YYYY-MM-DD"
+            
+  SettlementToPartner:
+    type: object
+    required:
+      - total
+    properties:
+      total:
+        type: number
+        format: float
+        multipleOf: 0.01
+        description: "Total amount of settlement to partner. Sum of the downPayment, amountFinance and commission amounts below."
+        example: "12000.00"
+      downPayment:
+        type: number
+        format: float
+        multipleOf: 0.01
+        description: "Downpayment amount"
+        example: "0.00"
+      amountFinance:
+        type: number
+        format: float
+        multipleOf: 0.01
+        description: "Financed amount -> amount of the financed vehicle price (Retail Price minus downpaymente & deposit)"
+        example: "12000.00"
+      commission:
+        type: number
+        format: float
+        multipleOf: 0.01
+        description: "Commission"
+        example: "0.00"
+    title: "SettlementToPartner"
+  
+  FinancialData:
+    type: object
+    required:
+      - productType
+      - downPayment
+      - amountOfCredit
+      - durationOfContract
+    properties:
+      productType:
+        type: string
+        description: "Enumeration: Loan, Loanballoon, LoanballoonKM, FinancialLease, OperationalLease"
+        example: "Loan"
+      downPayment:
+        type: number
+        format: float
+        multipleOf: 0.01
+        description: "Amount (rather than %). If it is possible to inform it"
+        example: "0.00"
+      totalAmountFinanced:
+        type: number
+        format: float
+        multipleOf: 0.01
+        description: "Total amount financed = Amount of Credit with interest, fees and insurances"
+        example: "12000.00"
+      amountOfCredit:
+        type: number
+        format: float
+        multipleOf: 0.01
+        description: "Retail Price minus downpaymente & deposit"
+        example: "12000.00"
+      netAmount:
+        type: number
+        format: float
+        multipleOf: 0.01
+        description: "The loanSum minus interestAmount. (Usually AmountOfCredit plus Commision & Fees, if there are)"
+        example: "12000.00"
+      totalAmountPayable:
+        type: number
+        format: float
+        multipleOf: 0.01
+        description: "Retail price plus interest (Included fees plus insurances)"
+        example: "12000.00"
+      guaranteedFutureValue:
+        type: number
+        format: float
+        multipleOf: 0.01
+        description: "Guaranteed Future Value (GFV). Residual Value"
+        example: "12000.00"
+      durationOfContract:
+        type: object
+        required:
+          - number
+          - timeUnit
+        properties:
+          number:
+            type: integer
+          timeUnit:
+            type: string
+      mileage:
+        type: object
+        properties:
+          numUnits:
+            type: integer
+          uom:
+            type: string
+      excessMileageCharge:
+        type: object
+        properties:
+          numUnits:
+            type: number
+            format: float
+            multipleOf: 0.01
+            description: "Required if parent tag present."
+            example: "3.20"
+          priceCurrency:
+            type: string
+            description: "Required if parent tag present. Standard ISO 4217 Alphabetic Code"
+            example: "EUR"
+          mileage:
+            type: number
+            format: float
+            multipleOf: 0.01
+            description: "Required if parent tag present."
+            example: "1.00"
+          mileageUnit:
+            type: string
+            description: "Enumeration: KM or MILES"
+            example: "EUR"
+      unusedMileageRefund:
+        type: object
+        properties:
+          numUnits:
+            type: number
+            format: float
+            multipleOf: 0.01
+            description: "Required if parent tag present."
+            example: "3.20"
+          priceCurrency:
+            type: string
+            description: "Required if parent tag present. Standard ISO 4217 Alphabetic Code"
+            example: "EUR"
+          mileage:
+            type: number
+            format: float
+            multipleOf: 0.01
+            description: "Required if parent tag present."
+            example: "1.00"
+          mileageUnit:
+            type: string
+            description: "Enumeration: KM or MILES"
+            example: "EUR"
+      paymentsSchedule:
+        type: array
+        items:
+          $ref: '#/definitions/PaymentSchedule'
+      interestRates:
+        type: array
+        items:
+          $ref: '#/definitions/InterestRates'
+      feeTypes:
+        type: array
+        items:
+          $ref: '#/definitions/FeeTypes'
+      insurance:
+        type: array
+        items:
+          $ref: '#/definitions/Insurance'
+  
+  PaymentSchedule:
+    type: object
+    required:
+      - instalmentType
+      - numberOfTerms
+      - payment
+    properties:
+      numberOfTerms:
+        type: string
+        description: "Enumeration: FirstInstalment, RecurrentInstalment, LastInstalment"
+        example: "RecurrentInstalment"
+      instalmentType:
+        type: number
+        format: int32
+        example: "34"
+      payment:
+        type: number
+        format: float
+        multipleOf: 0.01
+        example: "555.00"
+  
+  InterestRates:
+    type: object
+    required:
+      - typeInterestRate
+      - value
+    properties:
+      typeInterestRate:
+        type: string
+        description: "EEnum for Auto: EffectiveInterest, NominalInterest"
+        example: "EffectiveInterest"
+      value:
+        type: number
+        format: float
+        multipleOf: 0.01
+        example: "2.99"
+        description: "Value of the rate expressed in percentage."
+  
+  FeeTypes:
+    type: object
+    required:
+      - typeOfFee
+      - amount
+    properties:
+      typeOfFee:
+        type: string
+        description: "Type of fee. Enum: CreditFacilityFee, BackendFee"
+        example: "CreditFacilityFee"
+      description:
+        type: string
+        description: "You should explain here what means this fee e.g. CreditFacilityFee: 'Credit facilty fee. (Initial fee for the installment product)' Backend Fee: 'Back end fee'"
+        example: "Credit Facility Fee"
+      amount:
+        type: number
+        format: float
+        multipleOf: 0.01
+        example: "300.00"
+        description: "Amount of feee"
+  
+  Insurance:
+    type: object
+    required:
+      - typeOfInsurance
+      - typeOfInsuranceProduct
+      - primeForInsurance
+    properties:
+      typeOfInsurance:
+        type: string
+        description: "This field is to indicate the type of insurance you need to send Enum AUTO: CPI, PI"
+        example: "CPI"
+      typeOfInsuranceProduct:
+        type: string
+        description: "Type Of Product  Enum AUTO CPI: UP=Unprotected, LU=Life&Unemployment, LCI=Life&Critical Illness,  LAS=Life&Accident or Sickness, LASUCI=Life&Accident or Sickness&Unemployment&Critical Illness Enum AUTO PI (To be Defined)"
+        example: "UP"
+      descriptionOfInsurance:
+        type: string
+        description: "You can include a full insurance description to show to the customer"
+        example: "Unprotected"
+      primeForInsurance:
+        type: number
+        format: float
+        multipleOf: 0.01
+        example: "305.00"
+            
+  UnauthorizedError:
+    description: "Api kye is missing or invalid"
+            
+  ResponseError:
+    type: object
+    properties:
+      httpCode:
+        type: string
+        description: "HTTP Code"
+        enum:
+          - 100 CONTINUE
+          - 101 SWITCHING_PROTOCOLS
+          - 102 PROCESSING
+          - 103 CHECKPOINT
+          - 200 OK
+          - 201 CREATED
+          - 202 ACCEPTED
+          - 203 NON_AUTHORITATIVE_INFORMATION
+          - 204 NO_CONTENT
+          - 205 RESET_CONTENT
+          - 206 PARTIAL_CONTENT
+          - 207 MULTI_STATUS
+          - 208 ALREADY_REPORTED
+          - 226 IM_USED
+          - 300 MULTIPLE_CHOICES
+          - 301 MOVED_PERMANENTLY
+          - 302 FOUND
+          - 302 MOVED_TEMPORARILY
+          - 303 SEE_OTHER
+          - 304 NOT_MODIFIED
+          - 305 USE_PROXY
+          - 307 TEMPORARY_REDIRECT
+          - 308 PERMANENT_REDIRECT
+          - 400 BAD_REQUEST
+          - 401 UNAUTHORIZED
+          - 402 PAYMENT_REQUIRED
+          - 403 FORBIDDEN
+          - 404 NOT_FOUND
+          - 405 METHOD_NOT_ALLOWED
+          - 406 NOT_ACCEPTABLE
+          - 407 PROXY_AUTHENTICATION_REQUIRED
+          - 408 REQUEST_TIMEOUT
+          - 409 CONFLICT
+          - 410 GONE
+          - 411 LENGTH_REQUIRED
+          - 412 PRECONDITION_FAILED
+          - 413 PAYLOAD_TOO_LARGE
+          - 413 REQUEST_ENTITY_TOO_LARGE
+          - 414 URI_TOO_LONG
+          - 414 REQUEST_URI_TOO_LONG
+          - 415 UNSUPPORTED_MEDIA_TYPE
+          - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+          - 417 EXPECTATION_FAILED
+          - 418 I_AM_A_TEAPOT
+          - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+          - 420 METHOD_FAILURE
+          - 421 DESTINATION_LOCKED
+          - 422 UNPROCESSABLE_ENTITY
+          - 423 LOCKED
+          - 424 FAILED_DEPENDENCY
+          - 425 TOO_EARLY
+          - 426 UPGRADE_REQUIRED
+          - 428 PRECONDITION_REQUIRED
+          - 429 TOO_MANY_REQUESTS
+          - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+          - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+          - 500 INTERNAL_SERVER_ERROR
+          - 501 NOT_IMPLEMENTED
+          - 502 BAD_GATEWAY
+          - 503 SERVICE_UNAVAILABLE
+          - 504 GATEWAY_TIMEOUT
+          - 505 HTTP_VERSION_NOT_SUPPORTED
+          - 506 VARIANT_ALSO_NEGOTIATES
+          - 507 INSUFFICIENT_STORAGE
+          - 508 LOOP_DETECTED
+          - 509 BANDWIDTH_LIMIT_EXCEEDED
+          - 510 NOT_EXTENDED
+          - 511 NETWORK_AUTHENTICATION_REQUIRED
+      httpMessage:
+        type: string
+        description: "HTTP Message"
+      errorCode:
+        type: string
+        description: "Error Code for further information"
+      moreInformation:
+        type: string
+        description: "Further information about the error"
+    title: ResponseError
+    
+  InfoRoutingData:
+    type: object
+    required:
+      - applicationArea
+      - financialDataRequested
+      - primaryApplicant
+      - requestMetadata
+      - vehicleInfo
+      - userRedirectURL
+    properties:
+      applicationArea:
+        $ref: '#/definitions/ApplicationArea'
+      financialDataRequested:
+        $ref: '#/definitions/FinancialDataRequested'
+      primaryApplicant:
+        $ref: '#/definitions/PrimaryApplicant'
+      requestMetadata:
+        $ref: '#/definitions/RequestMetadata'
+      userRedirectURL:
+        type: string
+        description: "URL to redirect when the process is done"
+      vehicleInfo:
+        $ref: '#/definitions/VehicleInfo'
+    title: InfoRoutingData
+  ApplicationArea:
+    type: object
+    required:
+      - sender
+    properties:
+      sender:
+        $ref: '#/definitions/Sender'
+    title: ApplicationArea
+  Sender:
+    type: object
+    required:
+      - ID
+      - language
+      - name
+    properties:
+      ID:
+        type: string
+        description: "Client credentials"
+      language:
+        type: string
+        example: "ES"
+      name:
+        type: string
+        description: "Dealer name"
+      emailCC:
+        type: string
+        format: email
+        description: "Email Contact SCF"
+      phoneCC:
+        type: string
+        description: "Phone Contact SCF"
+      creationDateTime:
+        type: string
+        example: "2017-11-22T22:05:10.00Z"
+        description: "Request financiation date"
+    title: Sender
+  FinancialDataRequested:
+    type: object
+    required:
+      - termInMonths
+    properties:
+      applicationType:
+        type: integer
+        format: int32
+        description: "Financial type"
+      downPayment:
+        type: number
+        format: float
+        multipleOf: 0.01
+        description: "Down payment"
+      employmentInsurance:
+        type: integer
+        format: int32
+        description: "It have unemployment assurance"
+      damageInsurance:
+        type: integer
+        format: int32
+        description: "It have damage assurance"
+      lifeInsurance:
+        type: integer
+        format: int32
+        description: "It have life assurance"
+      paymentAmount:
+        type: number
+        format: float
+        multipleOf: 0.01
+        description: "Monthly payment amount"
+      productID:
+        type: string
+      termInMonths:
+        type: integer
+        format: int32
+        description: "Term in months"
+      ballonPaymentAmount:
+        type: number
+        format: float
+        multipleOf: 0.01
+      annualPercentageRate:
+        type: number
+        format: float
+        multipleOf: 0.01
+        description: "Calculator value TIN"
+      insuranceAmount:
+        type: integer
+        format: int32
+        description: "Total insurance Amount"
+      mileAge:
+        $ref: '#/definitions/mileAge'
+    title: FinancialDataRequested
+  PrimaryApplicant:
+    type: object
+    required:
+      - applicantType
+      - customerType
+      - firstName
+      - lastName
+    properties:
+      address:
+        $ref: '#/definitions/Address'
+      applicantType:
+        type: string
+        example: "PrimaryApplicant"
+      customerType:
+        type: string
+        example: "Private"
+      firstName:
+        type: string
+        description: "Client name"
+      lastName:
+        type: string
+        description: "Client last name"
+      email:
+        type: string
+        description: "Client email"
+      phone:
+        type: string
+        description: "Client Phone"
+      dateOfBirth:
+        type: string
+        example: "YYYY-MM-DD"
+      documentType:
+        type: string
+        description: "Client Document Type"
+        example: "1.DNI/2.NIE/3.CIF/4.Pasaporte"
+      documentNumber:
+        type: string
+        description: "Client Document Number"
+      countryBorn:
+        type: string
+        description: "Country Born"
+      gender:
+        type: string
+        example: "M -Mujer; V -Varón"
+      maritalStatus:
+        type: string
+        example: "D: DIVORCIADO,U: UNIDOS SIN DOCUMENTO, V: VIUDO, S: SOLTERO, R: SEPARADO, C: CASADO"
+      monthlyIncome:
+        type: integer
+        format: int32
+        description: "Monthly Income"
+      monthlyExpenses:
+        type: integer
+        format: int32
+        description: "Monthly Expenses"
+      accountNumber:
+        type: string
+        description: "Account Number IBAN"
+      nationality:
+        type: string
+      cardTypeId:
+        type: string
+        example: "2: PRIMERA RENOVACION, 3: SEGUNDA RENOVACION, 4: PERMANENTE"
+      expirationDateCard:
+        type: string
+        example: "YYYY-MM-DD"
+      socialSecurityDate:
+        type: string
+        example: "YYYY-MM-DD"
+      addressResidenceTime:
+        type: string
+        example: "1: MENOS DE 3 MESES, 2: DE 3 A 11 MESES ,3: DE 12 A 35 MESES, 4: DE 36 A 59 MESES, 5: 60 O MAS MESES"
+      employement:
+        $ref: '#/definitions/employement'
+    title: PrimaryApplicant
+  Address:
+    type: object
+    properties:
+      city:
+        type: string
+        description: "City"
+      line1:
+        type: string
+        description: "Street name"
+      line2:
+        type: string
+        description: "Number, flat, etc"
+      postalCode:
+        type: string
+        description: "Postal code"
+      stateOrProvince:
+        type: string
+        description: "State or Province"
+      countryCode:
+        type: string
+        example: "ISO 3166 Apha-2 code"
+      streetType:
+        type: string
+        description: "Street Type"
+      residenceType:
+        type: string
+        example: "1: ALQUILER, 2: DOMICILIO PADRES, 3: CONTRATO PRIVADO, 4: HIPOTECA PAGADA, 5: HIPOTECA PDTE. DE PAGO, 6: DOMICILIO DE LA EMPRESA"
+      months:
+        type: integer
+        format: int32
+        description: "Time of residence in months"
+      years:
+        type: integer
+        format: int32
+        description: "Time of residence in years"
+  RequestMetadata:
+    type: object
+    required:
+      - conversationID
+      - referenceNumber
+      - countryCode
+      - currency
+    properties:
+      conversationID:
+        type: string
+        description: "Operation ID"
+      countryCode:
+        type: string
+        example: "ISO 3166 Apha-2 code"
+      currency:
+        type: string
+        description: "Currency Standard ISO 4217"
+      referenceNumber:
+        type: string
+        description: "Operation Sub-ID"
+      sendEmailCustomer:
+        type: string
+        format: email
+    title: RequestMetadata
+  RoutingResponse:
+    type: object
+    properties:
+      applicationFunnel:
+        $ref: '#/definitions/ApplicationFunnel'
+      financeID:
+        type: string
+    title: RoutingResponse
+  ApplicationFunnel:
+    type: object
+    properties:
+      URL:
+        type: string
+      lifeSpan:
+        type: integer
+        format: int64
+    title: ApplicationFunnel
+  VehicleInfo:
+    type: object
+    required:
+      - category
+      - manufacturer
+      - saleClass
+      - model
+      - modelYear
+      - trim
+      - VehiclePriceBreakdown
+      - pictureURL
+    properties:
+      Odometer:
+        $ref: '#/definitions/Odometer'
+      VIN:
+        type: string
+      category:
+        type: string
+        example: "Auto or Moto"
+      dealerOwner:
+        type: string
+      manufacturer:
+        type: string
+        description: "Brand"
+      model:
+        type: string
+        description: "Vehicle Model"
+      modelID:
+        type: string
+        description: "Eurotax/JATO Vehicle code"
+      modelYear:
+        type: string
+        description: "Fabrication year"
+      pictureURL:
+        type: string
+        description: "Vehicle pictures"
+      registration:
+        $ref: '#/definitions/Registration'
+      saleClass:
+        type: string
+        example: "New or Used"
+      trim:
+        type: string
+        example: "Model Version"
+      vehiclePriceBreakdown:
+        $ref: '#/definitions/VehiclePriceBreakdown'
+      fuelTypeId:
+        type: string
+        example: "BEV : ELECTRICO, D:    DIESEL, G:    GASOLINA, GLP:  GAS LICUADO, HEV:  HIBRIDO, O: OTROS"
+      transmissionId:
+        type: string
+        example: "A: Automatica, M: Manual"
+      power:
+        type: string
+        description: "Power"
+      powerTypeId:
+        type: string
+        example: "HP or KWH"
+    title: VehicleInfo
+  VehiclePriceBreakdown:
+    type: object
+    required:
+      - totalVehiclePrice
+    properties:
+      totalVehiclePrice:
+        type: integer
+        format: int32
+        description: "Financiation Vehicle price"
+      vehiclePrice:
+        type: integer
+        format: int32
+    title: VehiclePriceBreakdown
+  Registration:
+    type: object
+    description: "Mandatory if is Used"
+    properties:
+      firstDate:
+        type: string
+        example: "YYYY-MM-DD"
+        description: "First matriculation date"
+      plate:
+        type: string
+        description: "Vehicle plate"
+    title: Registration
+  Odometer:
+    type: object
+    description: "Mandatory if is Used"
+    properties:
+      UOM:
+        type: string
+        example: "KM"
+      numUnits:
+        type: integer
+        format: int32
+        description: "KMS"
+    title: Odometer
+  mileAge:
+    type: object
+    description: "Mandatory if multioption"
+    properties:
+      UOM:
+        type: string
+        example: "KM, mandatory if multioption"
+      numUnits:
+        type: integer
+        format: int32
+        description: "KMS annual estimation, mandatory if multioption"
+    title: mileAge
+  employement:
+    type: object
+    properties:
+      employmentStatus:
+        type: string
+        example: "1:CUENTA AJENA, 2: AUTÓNOMO, 3: NO TRABAJA, 4: PENSIONISTA, 5: EN PARO"
+      employmentType:
+        type: string
+        example: "0: TEMPORAL, 1: FIJO"
+      months:
+        type: integer
+        format: int32
+        description: "Months in the company"
+      years:
+        type: integer
+        format: int32
+        description: "Years in the company"
+      billID:
+        type: string
+        example: "1: Fact. Anual IVA, 2: Rendimiento Neto Anual"
+      companySize:
+        type: string
+        example: "1: HASTA 10 PERSONAS, 2: ENTRE 10 Y 50, 3: ENTRE 50 Y 500, 4: ENTRE 500 Y 2000, 5: MAS DE 2000"
+      occupation:
+        type: string
+        example: "1: DIRECTIVO, 2: TECNICO TITULADO, 3: ADMINISTRATIVO, 4: TRABAJADOR MANUAL, 5: REPRESENTANTE, 6: TRABAJADOR ESPECIALISTA, 7: PROFESION LIBERAL 8: VENDEDOR AMBULANTE 9: OTROS"
+      companyActivity:
+        type: string
+        example: "1: INDUSTRIA, 2: COMERCIO, 3: SERVICIOS, 4: HOSTELERIA, 5: ADMINISTRACION PUBLICA, 6: CONSTRUCCION, 7: TRANSPORTE, 8: AGRICULT, GANADERIA, PESCA, 9: OTRAS ACTIVIDADES"
+    title: employement
+parameters:
+  AcceptParam:
+    name: Accept
+    type: string
+    in: header
+    description: 'The server response'
+    required: true
+    default: application/json
+  AuthorizationParam:
+    name: Authorization
+    type: string
+    in: header
+    description: 'Authorization token. Bearer OAuth2 token'
+    required: true
+  ContentTypeParam:
+    name: Content-Type
+    type: string
+    in: header
+    description: 'metadata content type'
+    required: true
+    default: application/json
+  ContextParam:
+    name: Context
+    type: string
+    in: header
+    description: 'include context object'
+    required: true
+  ParentSpanIdParam:
+    name: X-B3-ParentSpanId
+    type: string
+    in: header
+    description: 'Position of the parent operation in the trace tree. The value is 64 bits long. value is omitted when the span is the root of the trace tree. '
+    required: false
+  SampledParam:
+    name: X-B3-Sampled
+    type: string
+    in: header
+    description: 'Sampling decision. Sampling is a mechanism to reduce the volume of data in the tracing system. In B3, sampling applies consistently per-trace: once the sampling decision is made, the same value must be consistently sent downstream. This means that either all or no spans share a trace ID. The possible values are 0 = Deny 1 = Accept d = Debug'
+    required: false
+  SpanIdParam:
+    name: X-B3-SpanId
+    type: string
+    in: header
+    description: Position of the current operation in the trace tree. The value is 64 bits long. Do not integererpret the value it may or may not be derived from the value of the TraceId.
+    required: false
+  TraceIdParam:
+    name: X-B3-TraceId
+    type: string
+    in: header
+    description: Overall ID of the trace, shared by every span in the trace. The value is 64 or 128 bits long.
+    required: false
+  SantanderClientIdParam:
+    name: X-Santander-Client-Id
+    in: header
+    description: Client Id header
+    required: true
+    type: string
